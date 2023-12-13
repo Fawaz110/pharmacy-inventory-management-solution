@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container h-100 px-4 d-flex flex-column justify-content-evenly">
+        <div class="row justify-content-evenly">
+            <div class="col-md-4 mb-2">
+                <div class="card-green p-4 text-light">
+                    <h4 class="mb-3">Sales Today</h4>
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="col-6">
+                            <h2 class="m-0">456,502<sub>pcs</sub></h2>
+                        </div>
+                        <div class="col-5">
+                            <p class="percent m-0 h5">+4%</p>
+                            <p>Than last day</p>
+                        </div>
+                    </div>
+                    <div class="progress mb-3 rounded-pill overflow-hidden" role="progressbar" aria-label="Animated striped example" aria-valuenow="75"
+                         aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+                    </div>
+                    <p class="mb-3">Sales is calculated according to invoices, you can see details.</p>
+                    <a href="" class="btn text-light ps-0 d-flex align-items-center"><p class="mb-1">View Details </p><i class="fa-solid fa-arrow-right-long ms-2"></i></a>
+                </div>
+            </div>
+            <div class="col-md-8 mb-2">
+                <div class="card-gray p-4 h-100">
+                    <p class="text-light">this part view chart of sales every day</p>
+                </div>
+            </div>
+        </div>
+        <div class="circles-container row justify-content-between">
+            <div class="col-md-4 mb-2">
+                <div class="card-gray skill-outer p-5 d-flex justify-content-center">
+                    <div class="skill">
+                        <div class="outer">
+                            <div class="inner">
+                                <div id="number">
+                                </div>
+                            </div>
+                        </div>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px">
+                            <defs>
+                                <linearGradient id="GradientColor">
+                                    <stop offset="0%" stop-color="#109980" />
+                                    <stop offset="100%" stop-color="#A2D7CD" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="80" cy="80" r="70" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-2">
+                <div class="card-gray skill-outer p-5 d-flex justify-content-center">
+                    <div class="skill">
+                        <div class="outer">
+                            <div class="inner">
+                                <div id="number">
+                                </div>
+                            </div>
+                        </div>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px">
+                            <defs>
+                                <linearGradient id="GradientColor">
+                                    <stop offset="0%" stop-color="#109980" />
+                                    <stop offset="100%" stop-color="#A2D7CD" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="80" cy="80" r="70" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-2">
+                <div class="card-gray skill-outer p-5 d-flex justify-content-center">
+                    <div class="skill">
+                        <div class="outer">
+                            <div class="inner">
+                                <div id="number">
+                                </div>
+                            </div>
+                        </div>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px">
+                            <defs>
+                                <linearGradient id="GradientColor">
+                                    <stop offset="0%" stop-color="#109980" />
+                                    <stop offset="100%" stop-color="#A2D7CD" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="80" cy="80" r="70" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script>
+        
+        let numbers = Array.from(document.querySelectorAll("#number"));
+        let counter = 0;
+        let interval = setInterval(() => {
+            if (counter == 65) {
+                //$(element).css("color", "#FFF !important")
+                clearInterval(interval);
+            } else {
+                counter += 1;
+                numbers.forEach(element => {
+                    //Math.floor(Math.random()*100);
+                    element.innerHTML = counter + '%'
+                });
+            }
+        }, 20)
+    </script>
+</div>

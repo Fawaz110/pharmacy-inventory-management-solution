@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container p-3 text-white">
+    <div class="row mb-2">
+        <div class="col-6 mb-3">
+            <div class="card-gray h-100 p-4">
+                <form action="" class="h-100">
+                    <div class="row flex-row-reverse h-100 align-items-center">
+                        <div class="col-12 mb-2">
+                            <input type="text" placeholder="User name" class="form-control w-100">
+                        </div>
+                        <div class="col-12 mb-2">
+                            <input type="text" placeholder="User role" class="form-control w-100">
+                        </div>
+                        <div class="col-12 mb-2">
+                            <input type="number" min="1" max="32" placeholder="Day" class="form-control w-100">
+                        </div>
+                        <div class="col-12 mb-2">
+                            <input type="month" class="form-control w-100">
+                        </div>
+                        <div class="col-3"> <input type="submit" value="Search" class="btn btn-outline-green w-100"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-6 mb-3">
+            <div class="card-gray p-4 h-100 d-flex flex-column align-items-center justify-content-center">
+                <i class="fa-solid fa-users me-2 text-white" style="font-size: 5rem;"></i>
+                <h2 class="display-4">Sytem users</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-12">
+        <div class="card-gray">
+            <table class="text-center w-100">
+                <thead class="border-bottom">
+                    <tr>
+                        <th><p class="mx-2 my-3">Name</p></th>
+                        <th><p class="mx-2 my-3">Email</p></th>
+                        <th><p class="mx-2 my-3">Salary</p></th>
+                        <th><p class="mx-2 my-3">Role</p></th>
+                        <th><p class="mx-2 my-3">Hiring date</p></th>
+                        <th><p class="mx-2 my-3">Remove</p></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><p class="mx-2 my-3">Fawaz</p></td>
+                        <td><p class="mx-2 my-3">Fawaz@gmail.com</p></td>
+                            <td><p class="mx-2 my-3">3200</p></td>
+                            <td><p class="mx-2 my-3">Admin</p></td>
+                        <td><p class="mx-2 my-3">10,Oct 2023</p></td>
+                            <td><a href="#" class="btn btn-outline-danger">Remove <i class="fa-solid fa-user-xmark ms-2"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Your HTML code for the button and form -->
+<button class="btn-add btn btn-green btn-lg" title="Add medicine">
+    <i class="fa-solid fa-user-plus"></i>
+</button>
+
+<div class="layer row align-items-center justify-content-center" style="display: none;">
+    <div class="col-4">
+        <div class="card-gray p-4">
+            <h2 class="text-main mb-4">Add User</h2>
+            <form action="">
+                <div class="row mb-2">
+                    <div class="col-12 mb-2">
+                        <input type="text" name="" id="" class="form-control" placeholder="User name">
+                    </div>
+                    <div class="col-12 mb-2">
+                        <input type="email" step=".10" min="1" name="" id="" class="form-control"
+                               placeholder="E-mail">
+                    </div>
+                    <div class="col-12 mb-2">
+                        <input type="number" name="" min="1" id="" class="form-control" placeholder="Salary">
+                    </div>
+                    <div class="col-12 mb-2">
+                        <input type="password" name="" id="" class="form-control" placeholder="Password">
+                    </div>
+                    <input type="date" value="@DateTime.Now" name="" id="" class="d-none">
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12 d-flex flex-row-reverse">
+                        <input type="reset" value="CANCEL" id="" class="btn btn-outline-warning"
+                               placeholder="Expiry date">
+                        <input type="submit" value="ADD MEDICINE" id="" class="btn btn-outline-green me-2"
+                               placeholder="Expiry date">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Rest of your HTML code -->
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Your script -->
+<script>
+    $(document).ready(function () {
+        $(".btn-add").on('click', () => {
+            $('.layer').fadeIn(100);
+        });
+
+        $("[type='reset']").on('click', () => {
+            $('.layer').fadeOut(100);
+        });
+    });
+</script>

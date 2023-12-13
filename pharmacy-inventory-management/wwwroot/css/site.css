@@ -1,0 +1,304 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+:root {
+    --main-gray: #2F363E;
+    --main-green: #109A81;
+}
+
+.text-main {
+    color: var(--main-green);
+}
+body {
+    background-color: #24292D;
+}
+
+a {
+    color: #b3b3b3;
+    text-decoration: none;
+    transition: .3s;
+}
+
+a:hover {
+    color: #FFF;
+}
+
+.side-nav {
+    background-color: var(--main-gray);
+    color: #eee;
+    transition: .3s;
+}
+
+.side-top h1 {
+    font-family: 'Great Vibes', cursive;
+}
+
+.side-nav .arrow-list {
+    list-style-type: none;
+}
+
+.side-nav .arrow-list li::before {
+    content: "\2192";
+    margin-right: 5px;
+}
+
+.side-nav ul li {
+    /* background-color: #3e3e3e; */
+    position: relative;
+    transition: .3s;
+}
+
+.side-nav ul li::after {
+    content: "";
+    position: absolute;
+    width: 5px;
+    background-color: var(--main-green);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    transform: translateX(6px);
+    transition: .3s;
+}
+
+.active {
+    background-image: linear-gradient(to left, #109a8195, rgba(0, 0, 0, 0));
+    position: relative;
+}
+    .active::after {
+        content: "";
+        position: absolute;
+        width: 5px;
+        background-color: var(--main-green);
+        top: 0;
+        right: 0;
+        bottom: 0;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        transition: .3s;
+    }
+
+.side-nav ul li:hover {
+    background-image: linear-gradient(to left, #109a8195, rgba(0, 0, 0, 0));
+}
+
+.side-nav ul li:hover a {
+    color: #FFF;
+}
+
+.side-nav ul li:hover::after {
+    transform: translateX(0);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Set styles for the scrollable container */
+.scrollable {
+    position: relative;
+    /* Set your preferred height */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    /* Enable vertical scrolling */
+    direction: ltr;
+    /* Set direction to left-to-right */
+    /* Firefox scrollbar styling */
+    scrollbar-width: thin;
+    /* Width of the scrollbar */
+    scrollbar-color: #888 #f1f1f1;
+    /* Color of the scrollbar */
+}
+
+/* Set styles for the scrollbar track and thumb */
+.scrollable::-webkit-scrollbar {
+    background: transparent;
+    width: 5px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.scrollable::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+
+.progress {
+    background-color: #40A996;
+}
+
+.progress-bar {
+    background-color: #109C82;
+}
+
+.card-green {
+    border-radius: 10px;
+    background-image: #1dcdad;
+    background-image: linear-gradient(to left, #109980, #1dcdad);
+}
+
+.card-gray {
+    border-radius: 10px;
+    background-color: #2F363E;
+}
+
+.percent {
+    color: #FFAB2D;
+}
+
+/* /////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+////////////////////  */
+.circles-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.skill {
+    width: 160px;
+    height: 160px;
+    /* background-color: cornflowerblue; */
+    position: relative;
+    transform: scale(1.2); 
+}
+
+.outer {
+    height: 160px;
+    width: 160px;
+    border-radius: 50%;
+    padding: 20px;
+    /* the outer shadow*/
+    box-shadow: #0000006a 0 0 10px inset;
+}
+
+.inner {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* the inner shadow*/
+    box-shadow: #0000006a 0 0 10px inset;
+}
+
+#number {
+    font-weight: 600px;
+    font-size: 2rem;
+    color: #555;
+}
+
+circle {
+    fill: none;
+    stroke: url(#GradientColor);
+    stroke-width: 20px;
+    stroke-dasharray: 472;
+    stroke-dashoffset: 472;
+    animation: anim 2s linear forwards;
+}
+
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+@keyframes anim {
+    100% {
+        stroke-dashoffset: calc(472 - 472 * .65);
+    }
+}
+
+/* //////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////// */
+
+.skill-outer {
+    transition: .3s;
+    cursor: pointer;
+}
+
+.skill-outer:hover {
+    transform: rotateZ(5deg) scale(1.06) translateY(-30px);
+    box-shadow: 0 0 30px #1dcdad;
+}
+
+.table-main {
+    border-radius: 10px;
+    background-color: #2F363E;
+}
+
+.btn-outline-green {
+    border: #109980 1px solid;
+    color: #109980;
+}
+
+.btn-outline-green:hover {
+    background-color: #109980;
+}
+
+.form-control {
+    background-color: #24292D;
+    color: #FFF !important;
+    border: #dee2e6 solid .2px !important;
+}
+
+.form-control:focus {
+    background-color: #24292D;
+    box-shadow: none;
+    border: #dee2e6 solid .2px !important;
+}
+
+::-webkit-input-placeholder {
+    color: #b3b3b3 !important;
+}
+
+.btn-add {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: #13B497 !important;
+    color: #FFF !important;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    transition: .3s;
+}
+
+.btn-add:hover {
+    animation: fa-beat 1s infinite;
+}
+
+@keyframes fa-beat {
+    0%, 90% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    45% {
+        -webkit-transform: scale(var(--fa-beat-scale,1.25));
+        transform: scale(var(--fa-beat-scale,1.25));
+    }
+}
+
+.layer {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+
+.form-control[type="date"] {
+    color: #b3b3b3 !important;
+}

@@ -1,0 +1,262 @@
+﻿@{
+    string location = ViewBag.Location;
+    ViewData["Title"] = "Inventories";
+}
+
+@if (location == "" || location == null)
+{
+    <div class="container h-100 px-4 d-flex flex-column justify-content-evenly text-light">
+        <div class="container h-100 px-4 py-4 text-light">
+            <div class="row search-box card-gray p-2 mb-4">
+                <div class="col-12 mb-2"><h2>Search For Medicine</h2></div>
+                <div class="col-12">
+                    <form>
+                        <div class="row mb-2">
+                            <div class="col-6 mb-2">
+                                <input type="text" name="" id="" class="form-control" placeholder="Medicine name">
+                            </div>
+                            <div class="col-6 mb-2">
+                                <input type="text" name="" id="" class="form-control" placeholder="Production date">
+                            </div>
+                            <div class="col-6 mb-2">
+                                <input type="text" name="" id="" class="form-control" placeholder="Expiry date">
+                            </div>
+                            <div class="col-6 mb-2">
+                                <input type="text" name="" id="" class="form-control" placeholder="Inventory location">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 d-flex flex-row-reverse">
+                                <input type="submit" value="Search" class="btn btn-outline-green w-100">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <table class="table-main w-100 card-main">
+                    <thead class="w-100">
+                        <tr class="border-bottom">
+                            <th colspan="2">
+                                <h3 class="mx-2 my-3">Inventory Name: </h3>
+                            </th>
+                            <th colspan="2">
+                                <h3 class="mx-2 my-3">Inventory Location: </h3>
+                            </th>
+                        </tr>
+                        <tr class="border-bottom text-center">
+                            <th>
+                                <p class="mx-2 my-3">Name</p>
+                            </th>
+                            <th>
+                                <p class="mx-2 my-3">Price</p>
+                            </th>
+                            <th>
+                                <p class="mx-2 my-3">Amount</p>
+                            </th>
+                            <th>
+                                <p class="mx-2 my-3">Details</p>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="w-100 text-center">
+                        <tr>
+                            <td>
+                                <p class="mx-2 my-3">Asprine</p>
+                            </td>
+                            <td>
+                                <p class="mx-2 my-3">10 EGP</p>
+                            </td>
+                            <td>
+                                <p class="mx-2 my-3">200</p>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-warning mx-2 my-3">Details</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container h-100 px-4 d-flex flex-column justify-content-evenly text-light">
+        <div class="container h-100 px-4 py-4 text-light">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card-gray me-1 p-2 row">
+                        <div class="col-12 mb-2"><h2>Search For Medicine</h2></div>
+                        <div class="col-12">
+                            <form>
+                                <div class="row mb-2">
+                                    <div class="col-12 mb-2">
+                                        <input type="text" name="" id="" class="form-control" placeholder="Medicine name">
+                                    </div>
+                                    <div class="col-12 mb-2">
+                                        <input type="text" name="" id="" class="form-control" placeholder="Production date">
+                                    </div>
+                                    <div class="col-12 mb-2">
+                                        <input type="text" name="" id="" class="form-control" placeholder="Expiry date">
+                                    </div>
+                                    <input type="hidden" name="" value="@location" id="" class="form-control">
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 d-flex flex-row-reverse">
+                                        <input type="submit" value="Search" class="btn btn-outline-green">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-gray p-2 ms-1 row h-100">
+                        <div class="col-12">
+                            <div class="row align-items-center justify-content-between h-100">
+                                <div class="col-8">
+                                    <p><b>Name: </b>Pharmacy01</p>
+                                    <p><b>Location: </b>@location</p>
+                                </div>
+                                <div class="col-4">
+                                    <h2 class="display-1"><i class="fa-solid fa-boxes-stacked"></i></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <table class="table-main w-100 card-main">
+                    <thead class="w-100">
+                        <tr class="border-bottom text-center">
+                            <th>
+                                <p class="mx-2 my-3">Name</p>
+                            </th>
+                            <th>
+                                <p class="mx-2 my-3">Price</p>
+                            </th>
+                            <th>
+                                <p class="mx-2 my-3">Amount</p>
+                            </th>
+                            <th>
+                                <p class="mx-2 my-3">Details</p>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="w-100 text-center">
+                        <tr>
+                            <td>
+                                <p class="mx-2 my-3">Asprine</p>
+                            </td>
+                            <td>
+                                <p class="mx-2 my-3">10 EGP</p>
+                            </td>
+                            <td>
+                                <p class="mx-2 my-3">200</p>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-warning mx-2 my-3">Details</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Your HTML code for the button and form -->
+<button class="btn-add btn btn-green btn-lg" title="Add medicine">
+    <i class="fa-solid fa-hand-holding-medical"></i>
+</button>
+<div class="layer row align-items-center justify-content-center" style="display: none;">
+    <div class="col-4">
+        <div class="card-gray p-4">
+            <h2 class="text-main mb-4">Add Medicine</h2>
+            <form action="">
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <input type="text" name="" id="" class="form-control" placeholder="Medicine name">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <input type="number" step=".10" min="1" name="" id="" class="form-control"
+                               placeholder="Price">
+                    </div>
+                    <div class="col-6">
+                        <input type="number" name="" min="1" id="" class="form-control" placeholder="Quantity">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <input type="date" name="" id="" class="form-control" placeholder="Production Date">
+                    </div>
+                    <div class="col-6">
+                        <input type="date" name="" id="" class="form-control" placeholder="Expiry Date">
+                    </div>
+                </div>
+                @if (location == "" || location is null)
+                {
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <input list="InventoryLocation" class="form-control" placeholder="Inventory location" />
+                            <datalist id="InventoryLocation">
+                                <option value="first" />
+                                <option value="second" />
+                                <option value="third" />
+                            </datalist>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <input type="hidden" class="form-control" placeholder="Inventory location" value="@location" />
+
+                }
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <textarea class="form-control" placeholder="Indecations" name="" id="" cols="30"
+                                  rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <textarea class="form-control" placeholder="Side effects" name="" id="" cols="30"
+                                  rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12 d-flex flex-row-reverse">
+                        <input type="reset" value="CANCEL" id="" class="btn btn-outline-warning"
+                               placeholder="Expiry date">
+                        <input type="submit" value="ADD MEDICINE" id="" class="btn btn-outline-green me-2"
+                               placeholder="Expiry date">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Rest of your HTML code -->
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Your script -->
+<script>
+    $(document).ready(function () {
+        $(".btn-add").on('click', () => {
+            $('.layer').fadeIn(100);
+        });
+
+        $("[type='reset']").on('click', () => {
+            $('.layer').fadeOut(100);
+        });
+    });
+</script>

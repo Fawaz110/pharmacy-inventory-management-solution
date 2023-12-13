@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Tracking";
+}
+<div class="container p-3 text-light">
+    <div class="row mb-2">
+        <div class="col-6 mb-3">
+            <div class="card-gray h-100 p-4">
+                <form action="" class="h-100">
+                    <div class="row flex-row-reverse h-100 align-items-center">
+                        <div class="col-12 mb-2">
+                            <input type="text" placeholder="User name" class="form-control w-100">
+                        </div>
+                        <div class="col-12 mb-2">
+                            <input type="number" min="1" max="32" placeholder="Day" class="form-control w-100">
+                        </div>
+                        <div class="col-12 mb-2">
+                            <input type="month" class="form-control w-100">
+                        </div>
+                        <div class="col-3"> <input type="submit" value="Search" class="btn btn-outline-green w-100"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-6 mb-3">
+            <div class="card-gray p-4 h-100 d-flex flex-column align-items-center justify-content-center">
+                <i class="fa-solid fa-magnifying-glass mb-4 text-white" style="font-size: 5rem;"></i>
+                <h2 class="display-4">Workflow tracking</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card-gray">
+                <table class="text-center w-100">
+                    <thead class="border-bottom">
+                        <tr>
+                            <th><p class="mx-2 my-3">User name</p></th>
+                            <th><p class="mx-2 my-3">Action performed</p></th>
+                            <th><p class="mx-2 my-3">Reason / Details</p></th>
+                            <th><p class="mx-2 my-3">Date</p></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><p class="mx-2 my-3">Fawaz</p></td>
+                            <td><p class="mx-2 my-3">Fawaz Removed User woth name Osos</p></td>
+                            <td><p class="mx-2 my-3">No longer work in company</p></td>
+                            <td><p class="mx-2 my-3">1,oct 2023</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

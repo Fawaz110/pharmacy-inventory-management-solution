@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Contracted Pharmacies";
+    int? id = (int?)ViewBag.id;
+}
+@if (id is null)
+{
+    <div class="container h-100 px-4 text-white">
+        <h2 class="display-3 mb-3">Contracted pharmacies</h2>
+        <div class="row mb-2">
+            <div class="col-12">
+                <div class="card-gray p-3">
+                    <div class="col-12">
+                        <form>
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-9">
+                                    <input class="form-control" placeholder="Pharmacy name" type="text">
+                                </div>
+                                <div class="col-3">
+                                    <input formenctype="submit" class="btn btn-outline-green w-100" value="Search">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card-gray">
+                    <table class="text-center w-100">
+                        <thead>
+                            <tr class="border-bottom">
+                                <th>
+                                    <p class="mx-2 my-3">Pharmacy name</p>
+                                </th>
+                                <th>
+                                    <p class="mx-2 my-3">Number of branches</p>
+                                </th>
+                                <th>
+                                    <p class="mx-2 my-3">Total items stored</p>
+                                </th>
+                                <th>
+                                    <p class="mx-2 my-3">Details</p>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><p class="mx-2 my-3">Wael Samir</p></td>
+                                <td><p class="mx-2 my-3">15</p></td>
+                                <td><p class="mx-2 my-3">3000</p></td>
+                                <td><a asp-controller="Transaction" asp-action="Contracted" asp-route-id="0" class="btn btn-outline-warning">Details</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row text-white">
+        <h2 class="display-3">Pharmacy with id: 0</h2>
+    </div>
+}
+
