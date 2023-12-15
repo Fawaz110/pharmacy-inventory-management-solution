@@ -23,10 +23,15 @@ namespace pharmacy_inventory_management.Controllers
             ViewBag.Location = location;
             return View(new MedicineVM());
         }
-
-        public IActionResult AddMedicine(MedicineVM medicine)
+        [HttpPost]
+        public IActionResult Inventory(MedicineVM medicine)
         {
-            if(ModelState.IsValid)
+            if (medicine.Image != null && ModelState.ErrorCount == 1)
+            {
+                medicine.ImageUrl = DocumentSettings.UploadFile(medicine.Image, "Images");
+                ModelState.Clear();
+            }
+            if (ModelState.IsValid)
             {
                 var addedMedicine = new Medicine
                 {
@@ -44,8 +49,8 @@ namespace pharmacy_inventory_management.Controllers
                 _unitOfWork.MedicineRepository.Add(addedMedicine);
                 return RedirectToAction("Inventory");
             }
-
-            return BadRequest(RedirectToAction(nameof(Inventory)));
+            ViewData["medicine"] = _unitOfWork.MedicineRepository.GetAll();
+            return View(medicine);
         }
         public IActionResult Details(int id)
         {
@@ -80,12 +85,10 @@ namespace pharmacy_inventory_management.Controllers
             else if(ModelState.ErrorCount == 1)
             {
                 medicine.ImageUrl = DocumentSettings.UploadFile(medicine.Image, "Images");
-            }
-            // ImageUrl is null becouse no input in previous view refer to ImageUrl or (Image then resolving it)
-            if(ModelState.ErrorCount == 1)
-            {
                 ModelState.Clear();
             }
+            // ImageUrl is null becouse no input in previous view refer to ImageUrl or (Image then resolving it)
+            
             if (ModelState.IsValid)
             {
                 var updatedMedicine = new Medicine
