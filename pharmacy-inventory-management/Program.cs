@@ -1,5 +1,7 @@
 using Core.PharmacyDbContext;
 using Core.PharmacyEntities;
+using Infrastructure.Interfaces;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +30,11 @@ namespace pharmacy_inventory_management
             })
             .AddEntityFrameworkStores<PharmaDbContext>()
             .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>(TokenOptions.DefaultProvider);
+
+
+            builder.Services.AddScoped<IMedicineRepository,MedicineRepository>();
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 
 
             var app = builder.Build();

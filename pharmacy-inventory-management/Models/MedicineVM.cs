@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Core.PharmacyEntities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.PharmacyEntities
+namespace pharmacy_inventory_management.Models
 {
-    public class Medicine : BaseEntity
+    public class MedicineVM
     {
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
@@ -27,8 +24,8 @@ namespace Core.PharmacyEntities
         public DateTime ProductionDate { get; set; } = DateTime.Now;
         [Required]
         public DateTime ExpiryDate { get; set; }
+        public IFormFile? Image { get; set; }
         [Required]
         public string ImageUrl { get; set; }
-        public IEnumerable<MedicineInventory>? Inventories { get; set; }
     }
 }

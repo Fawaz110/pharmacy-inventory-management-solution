@@ -144,6 +144,10 @@ a:hover {
     border-radius: 10px;
     background-color: #2F363E;
 }
+.card-gray-solid {
+    border-radius: 10px;
+    background-color: #2F363E;
+}
 
 .percent {
     color: #FFAB2D;
@@ -258,7 +262,13 @@ svg {
     color: #b3b3b3 !important;
 }
 
-.btn-add {
+.btn-collection {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.btn-green {
     width: 50px !important;
     height: 50px !important;
     border-radius: 50% !important;
@@ -267,26 +277,11 @@ svg {
     align-items: center !important;
     background-color: #13B497 !important;
     color: #FFF !important;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
     transition: .3s;
 }
 
-.btn-add:hover {
-    animation: fa-beat 1s infinite;
-}
-
-@keyframes fa-beat {
-    0%, 90% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-    }
-
-    45% {
-        -webkit-transform: scale(var(--fa-beat-scale,1.25));
-        transform: scale(var(--fa-beat-scale,1.25));
-    }
+.btn-floating:hover {
+    animation: none;
 }
 
 .layer {
@@ -301,4 +296,22 @@ svg {
 
 .form-control[type="date"] {
     color: #b3b3b3 !important;
+}
+
+
+.card-gray-solid {
+    border-radius: 10px;
+    background-color: #2F363E;
+}
+
+.btn-floating {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.btn-show {
+    position: relative;
+    z-index: 101;
 }

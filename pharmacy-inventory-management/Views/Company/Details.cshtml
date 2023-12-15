@@ -1,0 +1,59 @@
+﻿@model Medicine
+@{
+    ViewData["Title"] = "Details";
+}
+<style>
+    .card-gray{
+        transition: .3s;
+    }
+    .card-gray:hover{
+        background-color: #109A81;
+    }
+</style>
+<div class="container h-100 px-4 py-4 text-light">
+    <h1>Medicine name: <span class="text-main">@Model.Name</span></h1>
+    <div class="row mb-3">
+        <div class="col-sm-4 p-2">
+            <div class="card-gray h-100 p-3 d-flex align-items-center">
+
+                <h4>Category: @Model.Category</h2>
+            </div>
+        </div>
+        <div class="col-sm-4 p-2">
+            <div class="card-gray h-100 p-3 d-flex align-items-center">
+                <h4>Price: @Math.Round(Model.Price, 2) EGP</h2>
+            </div>
+        </div>
+        <div class="col-sm-4 p-2">
+            <div class="card-gray h-100 p-3 d-flex align-items-center">
+                <h4>Amount: 200</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 p-2">
+            <div class="image card overflow-hidden">
+                <img class="w-100" src="~/Files/Images/@Model.ImageUrl" alt="">
+            </div>
+        </div>
+        <div class="col-md-6 p-2">
+            <div class="card-gray-solid h-100 p-3 d-flex flex-column justify-content-between">
+                <div class="d-flex flex-column">
+                    <h3>Indecations (Uses): </h3>
+                    <p class="border-bottom border-dark-subtle pb-3 mb-3">
+                        @Model.Indecations
+                    </p>
+
+                    <h3>Side effects: </h3>
+                    <p class="border-bottom border-dark-subtle pb-3 mb-3">
+                        @Model.SideEffects
+                    </p>
+                </div>
+                <div class="d-flex flex-row-reverse">
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete<i class="fa-solid fa-ban ms-2"></i></a>
+                    <a class="btn btn-outline-green me-2" asp-action="Update" asp-route-id="@Model.Id">Update<i class="fa-regular fa-pen-to-square ms-2"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

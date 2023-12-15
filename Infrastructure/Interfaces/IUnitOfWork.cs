@@ -2,9 +2,8 @@
 
 namespace Infrastructure.Interfaces
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
-        IGenericRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity;
-        Task<int> Complete();
+        public IMedicineRepository MedicineRepository { get; set; }
     }
 }

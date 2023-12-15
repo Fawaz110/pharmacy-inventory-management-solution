@@ -1,6 +1,7 @@
 ﻿using Core.PharmacyDbContext;
 using Core.PharmacyEntities;
 using Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -13,11 +14,27 @@ namespace Infrastructure.Repositories
             _context = context;
         }
         public TEntity GetById(int id)
-            => _context.Set<TEntity>().FirstOrDefault(element => element.Id == id);
+           => _context.Set<TEntity>().AsNoTracking().FirstOrDefault(element => element.Id == id);
 
         public IEnumerable<TEntity> GetAll()
+            => _context.Set<TEntity>().AsNoTracking().ToList();
+
+        public int Add(TEntity entity)
         {
-            throw new NotImplementedException();
+            _context.Set<TEntity>().Add(entity);
+            return _context.SaveChanges();
+        }
+
+        public int Update(TEntity entity)
+        {
+            _context.Update(entity);
+            return _context.SaveChanges();
+        }
+
+        public int Delete(int id)
+        {
+            _context.Remove(_context.Medicines.Find(id));
+            return _context.SaveChanges();
         }
     }
 }

@@ -6,5 +6,8 @@ namespace Infrastructure.Interfaces
     {
         TEntity GetById(int id);
         IEnumerable<TEntity> GetAll();
+        int Add(TEntity entity);
+        int Update(TEntity entity);
+        int Delete(int id);
     }
 }
