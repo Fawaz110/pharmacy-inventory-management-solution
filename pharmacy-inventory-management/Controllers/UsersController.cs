@@ -61,7 +61,12 @@ namespace pharmacy_inventory_management.Controllers
                     var addToRole = await _userManager.AddToRoleAsync(account, user.Role);
                     if(addToRole.Succeeded)
                     {
-
+                        //var admin = await _userManager.GetUserAsync(User);
+                        //var addProcessTrancking = new WorkflowTracking
+                        //{
+                        //    AdminId = 
+                        //};
+                        
                         return RedirectToAction(nameof(Index));
                     }
                 }
