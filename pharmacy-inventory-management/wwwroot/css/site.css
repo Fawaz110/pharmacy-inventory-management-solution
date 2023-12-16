@@ -315,3 +315,9 @@ svg {
     position: relative;
     z-index: 101;
 }
+
+.btn-add-pharmacist {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}

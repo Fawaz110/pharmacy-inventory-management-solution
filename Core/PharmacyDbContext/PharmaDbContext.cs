@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Core.PharmacyDbContext
 {
-    public class PharmaDbContext : IdentityDbContext<ApplicationUser>
+    public class PharmaDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public PharmaDbContext(DbContextOptions options) : base(options)
         {

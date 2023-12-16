@@ -13,7 +13,8 @@ namespace Core.PharmacyEntities
         [Required]
         public string AdminId { get; set; }
         public ApplicationUser? Admin { get; set; }
+        [Required]
         public string Details { get; set; } // => The action that the admin done
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
     }
 }

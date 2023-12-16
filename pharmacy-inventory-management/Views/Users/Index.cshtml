@@ -1,6 +1,8 @@
-﻿
+﻿@model UserVM
 @{
     ViewData["Title"] = "Index";
+    List<string> roles = (List<string>)ViewData["roles"]!;
+    IEnumerable<ApplicationUser> users = (IEnumerable<ApplicationUser>)ViewData["users"]!;
 }
 <div class="container p-3 text-white">
     <div class="row mb-2">
@@ -33,67 +35,105 @@
         </div>
     </div>
     <div class="row">
-    <div class="col-12">
-        <div class="card-gray">
-            <table class="text-center w-100">
-                <thead class="border-bottom">
-                    <tr>
-                        <th><p class="mx-2 my-3">Name</p></th>
-                        <th><p class="mx-2 my-3">Email</p></th>
-                        <th><p class="mx-2 my-3">Salary</p></th>
-                        <th><p class="mx-2 my-3">Role</p></th>
-                        <th><p class="mx-2 my-3">Hiring date</p></th>
-                        <th><p class="mx-2 my-3">Remove</p></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><p class="mx-2 my-3">Fawaz</p></td>
-                        <td><p class="mx-2 my-3">Fawaz@gmail.com</p></td>
-                            <td><p class="mx-2 my-3">3200</p></td>
-                            <td><p class="mx-2 my-3">Admin</p></td>
-                        <td><p class="mx-2 my-3">10,Oct 2023</p></td>
-                            <td><a href="#" class="btn btn-outline-danger">Remove <i class="fa-solid fa-user-xmark ms-2"></i></a></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-12">
+            <div class="card-gray">
+                <table class="text-center w-100">
+                    <thead class="border-bottom">
+                        <tr>
+                            <th><p class="mx-2 my-3">Name</p></th>
+                            <th><p class="mx-2 my-3">Email</p></th>
+                            <th><p class="mx-2 my-3">Role</p></th>
+                            <th><p class="mx-2 my-3">Hiring date</p></th>
+                            <th><p class="mx-2 my-3">Remove</p></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int x = 0; }
+                        @foreach (var user in users)
+                        {             
+                            
+                            <tr>
+                                <td><p class="mx-2 my-3">@user.UserName</p></td>
+                                <td><p class="mx-2 my-3">@user.Email</p></td>
+                                <td><p class="mx-2 my-3">@roles[x++]</p></td>
+                                <td><p class="mx-2 my-3">@user.HiringDate.ToString("dd/MM/yyyy")</p></td>
+                                <td><a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-outline-danger">Remove<i class="fa-solid fa-user-xmark ms-2"></i></a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
-</div>
 
 <!-- Your HTML code for the button and form -->
-<button class="btn-add btn btn-green btn-lg" title="Add medicine">
-    <i class="fa-solid fa-user-plus"></i>
-</button>
+<div class="btn-collection">
+        <button class="btn-add-pharmacist btn btn-green btn-lg" title="Add medicine">
+            <i class="fa-solid fa-hand-holding-medical"></i>
+        </button>
+        @*<button class="btn-floating btn-add-inventory btn btn-green btn-lg" title="Add inventory">
+            <i class="fa-solid fa-warehouse"></i>
+        </button>
+        <button class="btn-show btn btn-green btn-lg" title="Add item">
+            <i class="fa-solid fa-plus"></i>
+        </button>*@
+</div>
 
 <div class="layer row align-items-center justify-content-center" style="display: none;">
     <div class="col-4">
         <div class="card-gray p-4">
             <h2 class="text-main mb-4">Add User</h2>
-            <form action="">
+            <form asp-action="Index" method="post">
                 <div class="row mb-2">
                     <div class="col-12 mb-2">
-                        <input type="text" name="" id="" class="form-control" placeholder="User name">
+                        <input type="text" asp-for="@Model.UserName" id="" class="form-control" placeholder="User name">
+                        <span asp-validation-for="@Model.UserName" class="text-main small"></span>
                     </div>
                     <div class="col-12 mb-2">
-                        <input type="email" step=".10" min="1" name="" id="" class="form-control"
-                               placeholder="E-mail">
+                        <input type="email" asp-for="@Model.Email" class="form-control" placeholder="E-mail">
+                        <span asp-validation-for="@Model.Email" class="text-main small"></span>
                     </div>
                     <div class="col-12 mb-2">
-                        <input type="number" name="" min="1" id="" class="form-control" placeholder="Salary">
+                        <input type="password" asp-for="@Model.Password" class="form-control" placeholder="Password">
+                        <span asp-validation-for="@Model.Password" class="text-main small"></span>
                     </div>
                     <div class="col-12 mb-2">
-                        <input type="password" name="" id="" class="form-control" placeholder="Password">
+                        <input type="text" asp-for="@Model.ReasonToAdd" class="form-control" placeholder="Reason to add">
+                        <input type="hidden" asp-for="@Model.ReasonToRemove" value="not used" class="form-control" placeholder="Reason to add">
+                        <span asp-validation-for="@Model.ReasonToAdd" class="text-main small"></span>
+                    </div>
+                    <style>
+                        /* CSS code */
+                        .form-check-input:checked {
+                            /* Change background color */
+                            background-color: #109A81;
+                            box-shadow: 0 0 10px #109A81;
+                            border-color: #109A81;
+                            /* or Change border color */
+                        }
+                    </style>
+                    <div class="col-12 mb-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" asp-for="@Model.Role" id="pharmacist" value="Pharmacist" checked>
+                            <label class="form-check-label text-white" for="pharmacist">
+                                Pharmacist
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" asp-for="@Model.Role" id="admin" value="Admin">
+                            <label class="form-check-label text-white" for="admin">
+                                Admin
+                            </label>
+                        </div>
+                        @*<span asp-validation-for="" class="text-main"></span>*@
                     </div>
                     <input type="date" value="@DateTime.Now" name="" id="" class="d-none">
                 </div>
                 <div class="row mb-2">
                     <div class="col-12 d-flex flex-row-reverse">
-                        <input type="reset" value="CANCEL" id="" class="btn btn-outline-warning"
-                               placeholder="Expiry date">
-                        <input type="submit" value="ADD MEDICINE" id="" class="btn btn-outline-green me-2"
-                               placeholder="Expiry date">
+                        <input type="reset" value="CANCEL" id="" class="btn btn-outline-warning">
+                        <input type="submit" value="ADD USER" class="btn btn-outline-green me-2">
                     </div>
                 </div>
             </form>
@@ -107,7 +147,29 @@
 <!-- Your script -->
 <script>
     $(document).ready(function () {
-        $(".btn-add").on('click', () => {
+
+        //$('.btn-show').on('click', () => {
+        //    if ($('.btn-add-inventory').css('transform') == 'matrix(1, 0, 0, 1, 0, -60)') {
+        //        $('.btn-add-inventory').css('transform', 'translateY(0)')
+        //        $('.btn-add-inventory').css('z-index', 100)
+        //        $('.btn-add-pharmacist').css('z-index', 100)
+        //        $('.btn-add-pharmacist').css('transform', 'translateY(0)')
+        //    }
+        //    else {
+        //        $('.btn-add-pharmacist').css('transform', 'translateY(-120px)')
+        //        console.log($('.btn-add-pharmacist').css('transform'));
+        //        $('.btn-add-inventory').css('transform', 'matrix(1, 0, 0, 1, 0, -60)')
+        //        $('.btn-add-inventory').css('z-index', 101)
+        //        $('.btn-add-pharmacist').css('z-index', 101)
+        //    }
+        //})
+        //$('.btn-floating').on('click', () => {
+        //    $('.btn-add-inventory').css('transform', 'translateY(0)')
+        //    $('.btn-add-inventory').css('z-index', 100)
+        //    $('.btn-add-pharmacist').css('z-index', 100)
+        //    $('.btn-add-pharmacist').css('transform', 'translateY(0)')
+        //})
+        $(".btn-add-pharmacist").on('click', () => {
             $('.layer').fadeIn(100);
         });
 
@@ -116,3 +178,8 @@
         });
     });
 </script>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

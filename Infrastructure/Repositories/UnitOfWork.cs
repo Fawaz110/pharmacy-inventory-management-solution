@@ -8,11 +8,14 @@ namespace Infrastructure.Repositories
     public class UnitOfWork : IUnitOfWork
     {
 
-        public UnitOfWork(IMedicineRepository medicineRepository)
+        public UnitOfWork(IMedicineRepository medicineRepository, IUserRepository userRepository)
         {
             MedicineRepository = medicineRepository;
+            UserRepository = userRepository;
+
         }
 
         public IMedicineRepository MedicineRepository { get; set; }
+        public IUserRepository UserRepository { get; set; }
     }
 }

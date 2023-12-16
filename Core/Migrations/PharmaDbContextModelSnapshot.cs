@@ -113,7 +113,7 @@ namespace Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Inventories");
+                    b.ToTable("Inventories", (string)null);
                 });
 
             modelBuilder.Entity("Core.PharmacyEntities.Location", b =>
@@ -135,7 +135,7 @@ namespace Core.Migrations
 
                     b.HasIndex("InventoryId");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
                 });
 
             modelBuilder.Entity("Core.PharmacyEntities.Medicine", b =>
@@ -177,7 +177,7 @@ namespace Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Medicines");
+                    b.ToTable("Medicines", (string)null);
                 });
 
             modelBuilder.Entity("Core.PharmacyEntities.MedicineInventory", b =>
@@ -198,7 +198,7 @@ namespace Core.Migrations
 
                     b.HasIndex("inventoryId");
 
-                    b.ToTable("MedicineInventories");
+                    b.ToTable("MedicineInventories", (string)null);
                 });
 
             modelBuilder.Entity("Core.PharmacyEntities.Receipt", b =>
@@ -223,7 +223,7 @@ namespace Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Receipts");
+                    b.ToTable("Receipts", (string)null);
                 });
 
             modelBuilder.Entity("Core.PharmacyEntities.ReceiptReceiver", b =>
@@ -238,7 +238,7 @@ namespace Core.Migrations
 
                     b.HasIndex("ReceiptId");
 
-                    b.ToTable("ReceiptReceiver");
+                    b.ToTable("ReceiptReceiver", (string)null);
                 });
 
             modelBuilder.Entity("Core.PharmacyEntities.ReceiptSender", b =>
@@ -256,7 +256,7 @@ namespace Core.Migrations
 
                     b.HasIndex("ReceiptId");
 
-                    b.ToTable("ReceiptSenders");
+                    b.ToTable("ReceiptSenders", (string)null);
                 });
 
             modelBuilder.Entity("Core.PharmacyEntities.Report", b =>
@@ -283,7 +283,7 @@ namespace Core.Migrations
 
                     b.HasIndex("ReceiptId");
 
-                    b.ToTable("Reports");
+                    b.ToTable("Reports", (string)null);
                 });
 
             modelBuilder.Entity("Core.PharmacyEntities.WorkflowTracking", b =>
@@ -309,7 +309,7 @@ namespace Core.Migrations
 
                     b.HasIndex("AdminId");
 
-                    b.ToTable("WorkflowTrackingRecords");
+                    b.ToTable("WorkflowTrackingRecords", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
