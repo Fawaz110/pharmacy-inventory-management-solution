@@ -89,7 +89,7 @@ namespace pharmacy_inventory_management.Controllers
                             AdminId = admin.Id,
                             AdminName = admin.UserName,
                             ActionPerformed = $"{admin.UserName} added {account.UserName}",
-                            Details = $"{account.UserName} has been added to the system, as {user.Role}'."
+                            Details = $"{account.UserName} has been added to the system, as {user.Role}."
                         };
 
                         _unitOfWork.UserRepository.AddTrackingRecord(addProcessTrancking);

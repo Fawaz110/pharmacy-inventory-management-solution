@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<WorkflowTracking>
+@{
     ViewData["Title"] = "Tracking";
 }
 <div class="container p-3 text-light">
@@ -38,15 +39,20 @@
                             <th><p class="mx-2 my-3">Action performed</p></th>
                             <th><p class="mx-2 my-3">Reason / Details</p></th>
                             <th><p class="mx-2 my-3">Date</p></th>
+                            <th><p class="mx-2 my-3">Time</p></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><p class="mx-2 my-3">Fawaz</p></td>
-                            <td><p class="mx-2 my-3">Fawaz Removed User woth name Osos</p></td>
-                            <td><p class="mx-2 my-3">No longer work in company</p></td>
-                            <td><p class="mx-2 my-3">1,oct 2023</p></td>
-                        </tr>
+                        @foreach(var record in Model)
+                        {
+                            <tr>
+                                <td><p class="mx-2 my-3">@record.AdminName</p></td>
+                                <td><p class="mx-2 my-3">@record.ActionPerformed</p></td>
+                                <td><p class="mx-2 my-3">@record.Details</p></td>
+                                <td><p class="mx-2 my-3">@record.Date.ToString("dd/MM/yyyy")</p></td>
+                                <td><p class="mx-2 my-3">@record.Date.ToString("hh:mm:ss tt")</p></td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

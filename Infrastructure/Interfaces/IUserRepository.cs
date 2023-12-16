@@ -10,5 +10,6 @@ namespace Infrastructure.Interfaces
     public interface IUserRepository
     {
         void AddTrackingRecord(WorkflowTracking workflowTracking);
+        IEnumerable<WorkflowTracking> GetWorkflowRecords();
     }
 }
