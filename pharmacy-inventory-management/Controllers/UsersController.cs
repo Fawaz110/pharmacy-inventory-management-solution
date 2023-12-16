@@ -55,7 +55,7 @@ namespace pharmacy_inventory_management.Controllers
                     AdminId = admin.Id,
                     AdminName = admin.UserName,
                     ActionPerformed = $"{admin.UserName} removed {user.UserName}",
-                    Details = $"{user.UserName} longer auhenticated to login to the system."
+                    Details = $"{user.UserName} is no longer auhenticated to login to the system."
                 };
 
                 _unitOfWork.UserRepository.AddTrackingRecord(addProcessTrancking);
