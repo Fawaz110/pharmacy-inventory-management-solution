@@ -50,14 +50,13 @@
                     <tbody>
                         @{ int x = 0; }
                         @foreach (var user in users)
-                        {             
-                            
+                        {
                             <tr>
                                 <td><p class="mx-2 my-3">@user.UserName</p></td>
                                 <td><p class="mx-2 my-3">@user.Email</p></td>
-                                <td><p class="mx-2 my-3">@roles[x++]</p></td>
+                                <td><p class="mx-2 my-3">@roles[x]</p></td>
                                 <td><p class="mx-2 my-3">@user.HiringDate.ToString("dd/MM/yyyy")</p></td>
-                                <td><a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-outline-danger">Remove<i class="fa-solid fa-user-xmark ms-2"></i></a></td>
+                                <td><a asp-action="Delete" asp-route-id="@user.Id" class="delete-btn btn btn-outline-danger">Remove<i class="fa-solid fa-user-xmark ms-2"></i></a></td>
                             </tr>
                         }
                     </tbody>
@@ -97,11 +96,7 @@
                     <div class="col-12 mb-2">
                         <input type="password" asp-for="@Model.Password" class="form-control" placeholder="Password">
                         <span asp-validation-for="@Model.Password" class="text-main small"></span>
-                    </div>
-                    <div class="col-12 mb-2">
-                        <input type="text" asp-for="@Model.ReasonToAdd" class="form-control" placeholder="Reason to add">
                         <input type="hidden" asp-for="@Model.ReasonToRemove" value="not used" class="form-control" placeholder="Reason to add">
-                        <span asp-validation-for="@Model.ReasonToAdd" class="text-main small"></span>
                     </div>
                     <style>
                         /* CSS code */
@@ -147,28 +142,6 @@
 <!-- Your script -->
 <script>
     $(document).ready(function () {
-
-        //$('.btn-show').on('click', () => {
-        //    if ($('.btn-add-inventory').css('transform') == 'matrix(1, 0, 0, 1, 0, -60)') {
-        //        $('.btn-add-inventory').css('transform', 'translateY(0)')
-        //        $('.btn-add-inventory').css('z-index', 100)
-        //        $('.btn-add-pharmacist').css('z-index', 100)
-        //        $('.btn-add-pharmacist').css('transform', 'translateY(0)')
-        //    }
-        //    else {
-        //        $('.btn-add-pharmacist').css('transform', 'translateY(-120px)')
-        //        console.log($('.btn-add-pharmacist').css('transform'));
-        //        $('.btn-add-inventory').css('transform', 'matrix(1, 0, 0, 1, 0, -60)')
-        //        $('.btn-add-inventory').css('z-index', 101)
-        //        $('.btn-add-pharmacist').css('z-index', 101)
-        //    }
-        //})
-        //$('.btn-floating').on('click', () => {
-        //    $('.btn-add-inventory').css('transform', 'translateY(0)')
-        //    $('.btn-add-inventory').css('z-index', 100)
-        //    $('.btn-add-pharmacist').css('z-index', 100)
-        //    $('.btn-add-pharmacist').css('transform', 'translateY(0)')
-        //})
         $(".btn-add-pharmacist").on('click', () => {
             $('.layer').fadeIn(100);
         });

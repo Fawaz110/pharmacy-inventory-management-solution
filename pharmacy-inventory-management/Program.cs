@@ -2,8 +2,10 @@ using Core.PharmacyDbContext;
 using Core.PharmacyEntities;
 using Infrastructure.Interfaces;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace pharmacy_inventory_management
 {
@@ -38,6 +40,35 @@ namespace pharmacy_inventory_management
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            {
+                options.LoginPath = new PathString("/Account/Login");
+                options.Events = new CookieAuthenticationEvents
+                {
+                    OnSignedIn = async context =>
+                    {
+                        var userManager = context.HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
+
+                        var user = await userManager.GetUserAsync(context.Principal);
+
+                        if (user != null)
+                        {
+                            var claims = new List<Claim>
+                            {
+                                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                                new Claim(ClaimTypes.Name, user.UserName), // Adding username claim
+                                new Claim(ClaimTypes.Email, user.Email)    // Adding email claim
+                                // Add other claims if needed
+                            };
+
+                            var identity = new ClaimsIdentity(claims, context.Scheme.Name);
+                            var principal = new ClaimsPrincipal(identity);
+
+                            context.Principal = principal;
+                        }
+                    }
+                };
+            });
 
             var app = builder.Build();
 
@@ -53,6 +84,8 @@ namespace pharmacy_inventory_management
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

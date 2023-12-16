@@ -12,6 +12,8 @@ namespace Core.PharmacyEntities
         public int Id { get; set; }
         [Required]
         public string AdminId { get; set; }
+        public string? AdminName { get; set; }
+        public string? ActionPerformed { get; set; }
         public ApplicationUser? Admin { get; set; }
         [Required]
         public string Details { get; set; } // => The action that the admin done

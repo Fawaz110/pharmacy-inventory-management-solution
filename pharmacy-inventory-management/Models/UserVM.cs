@@ -16,8 +16,6 @@ namespace pharmacy_inventory_management.Models
         [Required]
         public string Role { get; set; }
         [Required]
-        public string ReasonToAdd { get; set; }
-        [Required]
         public string ReasonToRemove { get; set; }
     }
 }

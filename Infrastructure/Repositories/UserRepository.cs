@@ -19,6 +19,9 @@ namespace Infrastructure.Repositories
         }
 
         public void AddTrackingRecord(WorkflowTracking workflowTracking)
-            => _context.WorkflowTrackingRecords.Add(workflowTracking);
+        {
+            _context.WorkflowTrackingRecords.Add(workflowTracking);
+            _context.SaveChanges();
+        }
     }
 }
