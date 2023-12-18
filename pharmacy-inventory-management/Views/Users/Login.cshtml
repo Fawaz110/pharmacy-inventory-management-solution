@@ -1,0 +1,46 @@
+﻿@model LoginVM
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+    string error = (string) ViewData["incorrect"];
+}
+
+
+
+<div class="sign-in position-relative">
+    <div class="line line-upper w-50 z-0 position-absolute"></div>
+    <div class="line line-bottom w-50 position-absolute"></div>
+    <div class="container vh-100 d-flex align-items-center justify-content-center text-light z-1">
+        <div class="row w-100 justify-content-center">
+            <div class="col-md-5">
+                <div class="card-gray p-5 position-relative z-1">
+                    <div class="card-inner">
+                        <div class="header position-relative d-flex align-items-center justify-content-center text-center mb-4">
+                            <div class="header-inner">
+                                <h1 class="display-3 mb-0">Dr. Pharma</h1>
+                                <span>Sign in your account</span>
+                            </div>
+                        </div>
+                        <form asp-action="Login" method="post">
+                            <div class="input-field mb-3">
+                                <label asp-for="@Model.Email" class="mb-2">Email</label>
+                                <input type="text" asp-for="@Model.Email" class="form-control py-2 px-3" placeholder="Enter your email">
+                            </div>
+                            <div class="input-field mb-3">
+                                <label asp-for="@Model.Password" class="mb-2">Password</label>
+                                <input type="password" asp-for="@Model.Password" class="form-control py-2 px-3" placeholder="Enter your password">
+                            </div>
+                            <span asp-validation-for="@Model.Email" class="text-main"></span>
+                            <span asp-validation-for="@Model.Password" class="text-main"></span>
+                            @if(error != null)
+                            {
+                                <span class="text-main">@error</span>
+                            }
+                            <input type="submit" value="SIGN ME IN" class="btn btn-green-solid w-100 mt-4" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

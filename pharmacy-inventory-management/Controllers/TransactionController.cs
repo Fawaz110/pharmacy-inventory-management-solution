@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace pharmacy_inventory_management.Controllers
 {
+    [Authorize(Roles = "Admin, Pharmacist")]
     public class TransactionController : Controller
     {
         public IActionResult Contracted(int? id)

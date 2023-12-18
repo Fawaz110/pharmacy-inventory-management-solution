@@ -91,7 +91,7 @@ namespace pharmacy_inventory_management
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+                pattern: "{controller=Users}/{action=Login}/{id?}");
 
             app.Run();
         }

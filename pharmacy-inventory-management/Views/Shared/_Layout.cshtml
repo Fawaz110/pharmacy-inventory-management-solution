@@ -86,16 +86,19 @@
                         <li class="p-2 d-flex"><a asp-controller="Transaction" asp-action="Invoice" asp-route-name="@null" asp-route-date="@null" asp-route-id="@null" class="w-100 d-flex justify-content-between align-items-center"><p class="m-0">Invoices</p><i class="fa-solid fa-money-bill-transfer me-2 text-white"></i></a></li>
                         <li class="p-2 d-flex"><a asp-controller="Transaction" asp-action="Returns" asp-route-name="@null" asp-route-date="@null" asp-route-id="@null" class="w-100 d-flex justify-content-between align-items-center"><p class="m-0">Returns</p><i class="fa-solid fa-rotate-left me-2 text-white"></i></a></li>
                     </ul>
-                    <li>
-                        <a class="w-100 py-3 d-flex align-items-center" asp-controller="Users" asp-action="Index">
-                            <h5 class="m-0"><i class="fa-solid fa-users me-2 text-white"></i> <h6 class="m-0">System Users</h6> </h5>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="w-100 py-3 d-flex align-items-center" asp-controller="Workflow" asp-action="Tracking">
-                            <h5 class="m-0"><i class="fa-solid fa-magnifying-glass me-2 text-white"></i> <h6 class="m-0">Workflow tracking</h6> </h5>
-                        </a>
-                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a class="w-100 py-3 d-flex align-items-center" asp-controller="Users" asp-action="Index">
+                                <h5 class="m-0"><i class="fa-solid fa-users me-2 text-white"></i> <h6 class="m-0">System Users</h6> </h5>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="w-100 py-3 d-flex align-items-center" asp-controller="Workflow" asp-action="Tracking">
+                                <h5 class="m-0"><i class="fa-solid fa-magnifying-glass me-2 text-white"></i> <h6 class="m-0">Workflow tracking</h6> </h5>
+                            </a>
+                        </li>
+                    }
                     <li>
                         <a class="w-100 py-3 d-flex align-items-center" asp-controller="Notification" asp-action="Index">
                             <h5 class="m-0">
@@ -108,9 +111,9 @@
             </div>
             <div class="side-bottom d-flex justify-content-between mb-2">
                 <a href="">
-                    <h5 class="cursor-pointer">Profile <i class="fa-solid fa-user"></i></h5>
+                    <h5 class="tex-main">@User.Identity.Name <i class="fa-solid fa-user"></i></h5>
                 </a>
-                <a href="">
+                <a asp-controller="Users" asp-action="Logout">
                     <h5 class="cursor-pointer">Logout <i class="fa-solid fa-right-from-bracket me-2"></i></h5>
                 </a>
             </div>

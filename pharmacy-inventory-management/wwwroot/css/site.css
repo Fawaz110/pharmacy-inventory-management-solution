@@ -28,7 +28,8 @@ a:hover {
     transition: .3s;
 }
 
-.side-top h1 {
+.side-top h1
+.sign-in h1 {
     font-family: 'Great Vibes', cursive;
 }
 
@@ -320,4 +321,60 @@ svg {
     position: absolute;
     bottom: 10px;
     right: 10px;
+}
+
+
+
+.input-field label {
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: .3px;
+}
+
+.btn-green-solid {
+    background-color: #1dcdad;
+    color: #FFF;
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: .3px;
+    border-radius: 15px;
+    transition: .3s;
+}
+
+    .btn-green-solid:hover {
+        background-color: #13B497;
+    }
+
+.sign-in {
+    background: linear-gradient(to left, #24292dfb, #24292dfb), url("../assets/bg-signin.webp") no-repeat center;
+    background-size: cover;
+    overflow: hidden;
+}
+
+    .sign-in .header .card-gray-dark {
+        background-color: #24292D;
+        border-radius: 10px;
+        transform: rotateZ(10deg);
+    }
+
+    .sign-in .header .card-green {
+        transform: rotateZ(-10deg);
+    }
+
+.line {
+    height: 100px;
+}
+
+.line-upper {
+    top: 0;
+    left: 0;
+    background-color: #109980f0;
+    transform: skewY(30deg)
+}
+
+.line-bottom {
+    bottom: 0;
+    right: 0;
+    background-color: #1dcdade8;
+    transform: skewY(30deg)
 }

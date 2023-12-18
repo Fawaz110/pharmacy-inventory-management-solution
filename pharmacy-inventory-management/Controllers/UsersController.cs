@@ -1,9 +1,11 @@
 ﻿using Core.PharmacyEntities;
 using Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using pharmacy_inventory_management.Models;
+using System.Data;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Xml.Linq;
@@ -28,6 +30,7 @@ namespace pharmacy_inventory_management.Controllers
             _roleManager = roleManager;
             _signInManager = signInManager;
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -114,26 +117,41 @@ namespace pharmacy_inventory_management.Controllers
             return View(user);
         }
 
-        public async Task<IActionResult> Login()
+        public IActionResult Login()
         {
-            var email = "fawaz@admin.com";
-            var password = "Fawaz@123";
-
-            var userFinded = await _userManager.FindByEmailAsync(email);
-
-            if (userFinded == null)
-                ModelState.AddModelError("", "Email Does not exist");
-
-            var isCorrectPassword = await _userManager.CheckPasswordAsync(userFinded, password);
-
-            if (isCorrectPassword)
+            return View(new LoginVM());
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM loginVM)
+        {
+            if(ModelState.IsValid)
             {
-                var signinResult = await _signInManager.PasswordSignInAsync(userFinded, password, true, false);
+                var user = await _userManager.FindByEmailAsync(loginVM.Email);
+                if(user != null)
+                {
+                    var isCorrectPassword = await _userManager.CheckPasswordAsync(user, loginVM.Password);
+                    if(isCorrectPassword)
+                    {
+                        var signInResult = await _signInManager.PasswordSignInAsync(user, loginVM.Password, true, false);
+                        if (signInResult.Succeeded)
+                        {
+                            var loggedInUser = User;
+                            return RedirectToAction("Index", "Dashboard");
+                        }
+                    }
+                }
 
+                ModelState.AddModelError("incorrect", "Incorrect email or password");
+                ViewData["incorrect"] = "Incorrect email or password";
             }
 
-            return RedirectToAction(nameof(Index));
+            return View(loginVM);
+        }
 
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(Login));
         }
     }
 }

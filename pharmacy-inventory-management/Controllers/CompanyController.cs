@@ -1,13 +1,16 @@
 ﻿using Core.PharmacyEntities;
 using Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using pharmacy_inventory_management.Helper;
 using pharmacy_inventory_management.Models;
+using System.Data;
 using System.Reflection.Metadata;
 
 namespace pharmacy_inventory_management.Controllers
 {
+    [Authorize(Roles = "Admin, Pharmacist")]
     public class CompanyController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
