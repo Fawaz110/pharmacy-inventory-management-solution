@@ -10,7 +10,7 @@ using System.Reflection.Metadata;
 
 namespace pharmacy_inventory_management.Controllers
 {
-    [Authorize(Roles = "Admin, Pharmacist")]
+    // [Authorize(Roles = "Admin, Pharmacist")]
     public class CompanyController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

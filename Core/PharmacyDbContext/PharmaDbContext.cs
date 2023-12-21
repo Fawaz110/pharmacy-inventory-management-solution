@@ -17,7 +17,7 @@ namespace Core.PharmacyDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MedicineInventory>().HasKey(x => new { x.MedicineId, x.inventoryId });
+            modelBuilder.Entity<MedicineLocations>().HasKey(x => new { x.MedicineId, x.LocationId });
 
             modelBuilder.Entity<ReceiptSender>().HasKey(x => new {x.SenderId,x.ReceiptId});
             modelBuilder.Entity<ReceiptReceiver>().HasKey(x => new {x.ReceiverId,x.ReceiptId});
@@ -58,10 +58,10 @@ namespace Core.PharmacyDbContext
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Receipt> Receipts { get; set; }
-        public DbSet<MedicineInventory> MedicineInventories { get; set; }
         public DbSet<ReceiptSender> ReceiptSenders { get; set; }
         public DbSet<WorkflowTracking> WorkflowTrackingRecords { get; set; }
         public DbSet<Report> Reports { get; set; }
+        public DbSet<MedicineLocations> MedicineLocations { get; set; }
         //public DbSet<ReceiptInventory> ReceiptInventories { get; set; }
     }
 }

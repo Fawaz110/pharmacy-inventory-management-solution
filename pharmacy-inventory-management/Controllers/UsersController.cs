@@ -30,7 +30,7 @@ namespace pharmacy_inventory_management.Controllers
             _roleManager = roleManager;
             _signInManager = signInManager;
         }
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();

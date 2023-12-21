@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace pharmacy_inventory_management.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     public class WorkflowController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

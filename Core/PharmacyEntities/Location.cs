@@ -14,5 +14,6 @@ namespace Core.PharmacyEntities
         public Inventory? Inventory { get; set; }
         [Required]
         public string Address { get; set; }
+        public IEnumerable<MedicineLocations>? MedicineLocations { get; set; }
     }
 }

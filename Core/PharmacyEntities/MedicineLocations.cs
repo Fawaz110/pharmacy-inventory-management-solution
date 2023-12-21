@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace Core.PharmacyEntities
 {
-    public class MedicineInventory : BaseEntity
+    public class MedicineLocations : BaseEntity
     {
         public Medicine? Medicine { get; set; }
-        public Inventory? Inventory { get; set; }
-        public int inventoryId { get; set; }
+        public Location? Location { get; set; }
+        public int LocationId { get; set; }
         public int MedicineId { get; set; }
         public int Quantity { get; set; }
-        
     }
 }

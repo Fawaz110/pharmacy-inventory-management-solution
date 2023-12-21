@@ -29,6 +29,6 @@ namespace Core.PharmacyEntities
         public DateTime ExpiryDate { get; set; }
         [Required]
         public string ImageUrl { get; set; }
-        public IEnumerable<MedicineInventory>? Inventories { get; set; }
+        public IEnumerable<MedicineLocations>? MedicineLocations { get; set; }
     }
 }
