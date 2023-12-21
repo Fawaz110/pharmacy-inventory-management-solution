@@ -36,6 +36,8 @@ namespace pharmacy_inventory_management
 
             builder.Services.AddScoped<IMedicineRepository,MedicineRepository>();
             builder.Services.AddScoped<IUserRepository,UserRepository>();
+            builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+            builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();

@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var pharmacies = (IEnumerable<Inventory>)ViewData["pharmacies"];
+    var companyInventories = (IEnumerable<Inventory>)ViewData["company"];
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -43,9 +47,15 @@
                     </li>
                     <ul class="company arrow-list" style="display: none;">
                         <li class="p-2 d-flex"><a asp-controller="Company" asp-action="Inventory" class="w-100">All Company Inventories</a></li>
-                        <li class="p-2 d-flex"><a asp-controller="Company" asp-action="Inventory" asp-route-location="first" class="w-100">first inventory</a></li>
+                        @foreach(var inventory in companyInventories)
+                        {
+                            <li class="p-2 d-flex"><a asp-controller="Company" asp-action="Inventory" asp-route-id="@inventory.Id" class="w-100">@inventory.Name</a></li>
+                        }
+
+                    @*    
                         <li class="p-2 d-flex"><a asp-controller="Company" asp-action="Inventory" asp-route-location="second" class="w-100">second inventory</a></li>
                         <li class="p-2 d-flex"><a asp-controller="Company" asp-action="Inventory" asp-route-location="third" class="w-100">third inventory</a></li>
+                    *@
                     </ul>
                     <li class="d-flex justify-content-between align-items-center cursor-pointer">
                         <a class="w-100 py-3 d-flex align-items-center">
@@ -60,9 +70,17 @@
                     </li>
                     <ul class="pharmacies arrow-list" style="display: none;">
                         <li class="p-2 d-flex"><a asp-controller="Pharmacy" asp-action="Inventory" class="w-100">All Pharmacies</a></li>
-                        <li class="p-2 d-flex"><a asp-controller="Pharmacy" asp-action="Inventory" asp-route-location="first" class="w-100">first pharmacy</a></li>
+                        
+                        @foreach(var inventory in pharmacies)
+                        {
+                            <li class="p-2 d-flex"><a asp-controller="Pharmacy" asp-action="Inventory" asp-route-id="@inventory.Id" class="w-100">@inventory.Name</a></li>
+                            
+                        }
+
+                    @*
                         <li class="p-2 d-flex"><a asp-controller="Pharmacy" asp-action="Inventory" asp-route-location="second" class="w-100">second pharmacy</a></li>
                         <li class="p-2 d-flex"><a asp-controller="Pharmacy" asp-action="Inventory" asp-route-location="third" class="w-100">third pharmacy</a></li>
+                    *@
                     </ul>
 
                     

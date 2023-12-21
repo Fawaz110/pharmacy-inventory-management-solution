@@ -38,9 +38,6 @@ namespace Core.PharmacyDbContext
             //        .HasOne(ri => ri.Receipt)
             //        .WithMany(i => i.ReceiptInventories).HasForeignKey(ri => ri.ReceiptId);
 
-
-
-
             //modelBuilder.Entity<Receipt>()
             //                .HasMany(i => i.SenderInventory)
             //                .WithMany(inv => inv.SentInvoices)

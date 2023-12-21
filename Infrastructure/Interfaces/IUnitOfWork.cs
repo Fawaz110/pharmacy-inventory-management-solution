@@ -6,5 +6,8 @@ namespace Infrastructure.Interfaces
     {
         public IMedicineRepository MedicineRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
+        public IInventoryRepository InventoryRepository { get; set; }
+        public ILocationRepository LocationRepository { get; set; }
+
     }
 }

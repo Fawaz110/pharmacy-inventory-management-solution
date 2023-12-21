@@ -12,7 +12,7 @@ using System.Xml.Linq;
 
 namespace pharmacy_inventory_management.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -23,14 +23,14 @@ namespace pharmacy_inventory_management.Controllers
             IUnitOfWork unitOfWork,
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager) : base(unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
         }
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();
