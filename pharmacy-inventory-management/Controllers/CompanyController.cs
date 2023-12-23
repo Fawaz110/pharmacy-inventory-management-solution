@@ -22,7 +22,10 @@ namespace pharmacy_inventory_management.Controllers
         public IActionResult Inventory(int? id)
         {
 
-            IEnumerable<IGrouping<Location?, MedicineLocations?>> medicineLocations;
+            IEnumerable<IGrouping<int, MedicineLocations?>> medicineLocations;
+
+            //Dictionary<int, List<MedicineLocations?>> keyValuePairs = new Dictionary<int, List<MedicineLocations?>>();
+            // List<MedicineLocations?> medicines = new List<MedicineLocations?>();
 
             if (id is not null)
             {
@@ -31,13 +34,55 @@ namespace pharmacy_inventory_management.Controllers
 
                 medicineLocations = _unitOfWork.MedicineRepository.GetAllForComany()
                                                           .Where(ml => ml.Location.InventoryId == id)
-                                                          .GroupBy(ml => ml.Location);
+                                                          .GroupBy(ml => ml.LocationId);
+                
+
+                // get locations of the inventory (using in add proccess)
+                // var locationsOfInventory = _unitOfWork.LocationRepository.GetLocationsByInventoryId((int)id);
+
             }
             else
             {
-                medicineLocations = _unitOfWork.MedicineRepository.GetAll().GroupBy(ml => ml.Location);
+                medicineLocations = _unitOfWork.MedicineRepository.GetAllForComany().GroupBy(ml => ml.LocationId);
+
+                
+                    
+                
+
+                //// get all locations of company inventories
+                //foreach (var group in medicineLocations)
+                //{
+                //    var i = group.Key.Inventory;
+                //    foreach (var item in group)
+                //        if(item.Location.Inventory.InventoryType == InventoryType.Company)
+                //        {
+                //           var location = _unitOfWork.LocationRepository.GetLocationsByInventoryId(item.Location.InventoryId);
+                //        }
+                //}
+                // var allCompanyLocations = _unitOfWork.LocationRepository.GetLocationsByInventoryId(/* variable */)
             }
-            ViewData["medicineInLocation"] = medicineLocations;
+            
+            //foreach (var group in medicineLocations)
+            //{
+            //    var location = _unitOfWork.LocationRepository.GetById(group.Key);
+            //    foreach (var item in group)
+            //    {
+            //        if (keyValuePairs.ContainsKey(group.Key))
+            //            keyValuePairs[group.Key].Add(item);
+            //        else
+            //            keyValuePairs.Add(group.Key, new List<MedicineLocations>() { item });
+            //    }
+
+            //}
+
+            List<Location> locations = new List<Location>();
+
+            foreach (var group in medicineLocations)
+                locations.Add(_unitOfWork.LocationRepository.GetLocationWithInclude(group.Key));
+
+            ViewData["lcoations"] = locations;
+            
+            ViewData["medicineGroups"] = medicineLocations;
             return View(new MedicineVM());
         }
         [HttpPost]

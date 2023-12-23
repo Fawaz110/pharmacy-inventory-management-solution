@@ -10,5 +10,6 @@ namespace Infrastructure.Interfaces
     public interface ILocationRepository : IGenericRepository<Location>
     {
         IEnumerable<Location> GetLocationsByInventoryId(int id);
+        Location GetLocationWithInclude(int locationId);
     }
 }

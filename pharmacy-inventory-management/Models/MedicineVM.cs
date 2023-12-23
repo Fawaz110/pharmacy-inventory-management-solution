@@ -9,6 +9,8 @@ namespace pharmacy_inventory_management.Models
     {
         public int Id { get; set; }
         [Required]
+        public int locationId { get; set; }
+        [Required]
         public string Name { get; set; }
         [Required]
         public string Category { get; set; }
