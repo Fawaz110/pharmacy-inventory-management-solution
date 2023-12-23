@@ -1,12 +1,10 @@
-﻿using Core.PharmacyEntities;
+﻿using Core.PharmacyDbContext;
+using Core.PharmacyEntities;
 using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using pharmacy_inventory_management.Helper;
 using pharmacy_inventory_management.Models;
-using System.Data;
-using System.Reflection.Metadata;
 
 namespace pharmacy_inventory_management.Controllers
 {
@@ -14,16 +12,32 @@ namespace pharmacy_inventory_management.Controllers
     public class CompanyController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly PharmaDbContext _context;
 
-        public CompanyController(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public CompanyController(IUnitOfWork unitOfWork, PharmaDbContext context) : base(unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            _context = context;
         }
-        public IActionResult Inventory(string location = "")
+        public IActionResult Inventory(int? id)
         {
-            // we need to use ViewData to access all inventories to view it in side nav
-            ViewData["medicine"] = _unitOfWork.MedicineRepository.GetAll();
-            ViewBag.Location = location;
+
+            IEnumerable<IGrouping<Location?, MedicineLocations?>> medicineLocations;
+
+            if (id is not null)
+            {
+                var inventory = _unitOfWork.InventoryRepository.GetById((int)id);
+                ViewData["inventory"] = inventory;
+
+                medicineLocations = _unitOfWork.MedicineRepository.GetAllForComany()
+                                                          .Where(ml => ml.Location.InventoryId == id)
+                                                          .GroupBy(ml => ml.Location);
+            }
+            else
+            {
+                medicineLocations = _unitOfWork.MedicineRepository.GetAll().GroupBy(ml => ml.Location);
+            }
+            ViewData["medicineInLocation"] = medicineLocations;
             return View(new MedicineVM());
         }
         [HttpPost]
@@ -119,6 +133,50 @@ namespace pharmacy_inventory_management.Controllers
         {
             _unitOfWork.MedicineRepository.Delete(id);
             return RedirectToAction("Inventory");
+        }
+        
+        public IActionResult UpdateAmount(int medicineId, int locationId)
+        {
+            var medicineLocation = _unitOfWork.MedicineRepository.GetMedicinesByLocationId(locationId)
+                                                                 .Where(ml => ml.MedicineId == medicineId)
+                                                                 .FirstOrDefault();
+
+            MedicineLocationVM medicineLocationVM = new MedicineLocationVM
+            {
+                Id = medicineLocation.Id,
+                LocationId = locationId,
+                Location = medicineLocation.Location,
+                Medicine = medicineLocation.Medicine,
+                MedicineId = medicineLocation.MedicineId,
+                Quantity = medicineLocation.Quantity
+            };
+            // ViewData["medicineLocation"] = medicineLocation;
+
+            return View(medicineLocationVM);
+        }
+        [HttpPost]
+        public IActionResult UpdateAmount(MedicineLocationVM medicineLocation)
+        {
+            if (ModelState.IsValid)
+            {
+                MedicineLocations updated = new MedicineLocations
+                {
+                    Id = medicineLocation.Id,
+                    LocationId = medicineLocation.LocationId,
+                    MedicineId = medicineLocation.MedicineId,
+                    Quantity = medicineLocation.Quantity
+                };
+
+                var elementToUpdate = _unitOfWork.MedicineRepository.GetMedicinesByLocationId(medicineLocation.LocationId)
+                    .Where(ml => ml.MedicineId == medicineLocation.MedicineId).FirstOrDefault();
+
+                _context.Attach(elementToUpdate);
+                elementToUpdate.Quantity = medicineLocation.Quantity;
+
+                var updateResult = _unitOfWork.MedicineRepository.UpdateAmount(elementToUpdate);
+                return RedirectToAction(nameof(Inventory));
+            }
+            return View(medicineLocation);
         }
     }
 }

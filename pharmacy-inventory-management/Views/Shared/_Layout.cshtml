@@ -46,7 +46,7 @@
 
                     </li>
                     <ul class="company arrow-list" style="display: none;">
-                        <li class="p-2 d-flex"><a asp-controller="Company" asp-action="Inventory" class="w-100">All Company Inventories</a></li>
+                        <li class="p-2 d-flex"><a asp-controller="Company" asp-action="Inventory" asp-route-id="@null" class="w-100">All Company Inventories</a></li>
                         @foreach(var inventory in companyInventories)
                         {
                             <li class="p-2 d-flex"><a asp-controller="Company" asp-action="Inventory" asp-route-id="@inventory.Id" class="w-100">@inventory.Name</a></li>
@@ -69,12 +69,11 @@
                         </a>
                     </li>
                     <ul class="pharmacies arrow-list" style="display: none;">
-                        <li class="p-2 d-flex"><a asp-controller="Pharmacy" asp-action="Inventory" class="w-100">All Pharmacies</a></li>
+                        <li class="p-2 d-flex"><a asp-controller="Pharmacy" asp-action="Inventory" asp-route-id="@null" class="w-100">All Pharmacies</a></li>
                         
                         @foreach(var inventory in pharmacies)
                         {
-                            <li class="p-2 d-flex"><a asp-controller="Pharmacy" asp-action="Inventory" asp-route-id="@inventory.Id" class="w-100">@inventory.Name</a></li>
-                            
+                            <li class="p-2 d-flex"><a asp-controller="Pharmacy" asp-action="Inventory" asp-route-id="@inventory.Id" class="w-100">@inventory.Name</a></li>   
                         }
 
                     @*

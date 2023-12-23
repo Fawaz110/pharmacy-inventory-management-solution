@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class LocationRepository : GenericRepository<Inventory>, ILocationRepository
+    public class LocationRepository : GenericRepository<Location>, ILocationRepository
     {
         private readonly PharmaDbContext _context;
 
@@ -19,25 +19,7 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public int Add(Location entity)
-        {
-            _context.Add(entity);
-            return _context.SaveChanges();
-        }
-
         public IEnumerable<Location> GetLocationsByInventoryId(int id)
             => _context.Locations.Where(location => location.Id == id).AsNoTracking().ToList();
-
-        public int Update(Location entity)
-        {
-            _context.Set<Location>().Update(entity);
-            return _context.SaveChanges();
-        }
-
-        IEnumerable<Location> IGenericRepository<Location>.GetAll()
-            => _context.Locations.AsNoTracking().ToList();
-
-        Location IGenericRepository<Location>.GetById(int id)
-            => _context.Locations.AsNoTracking().FirstOrDefault(location => location.Id == id);
     }
 }

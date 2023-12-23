@@ -1,12 +1,19 @@
 ﻿@model MedicineVM
 @{
-    string location = ViewBag.Location;
-    var medicineList = (IEnumerable<Medicine>)ViewData["medicine"]!;
-    TempData["location"] = location;
+    var inventory = (Inventory) ViewData["inventory"];
+
+    //var medicineList = (IEnumerable<Medicine>)ViewData["medicineInLocation"];
+
+
+    // var medicineGroups = (Dictionary<Location,IEnumerable<MedicineLocations>>)ViewData["medicineInLocation"];
+
+    var medicineGroups = (IEnumerable<IGrouping<Location?, MedicineLocations?>>)ViewData["medicineInLocation"];
+
+    // TempData["location"] = location;
     ViewData["Title"] = "Company";
 }
 
-@if (location == "" || location == null)
+@if (inventory?.Id is null)
 {
     <div class="container h-100 px-4 d-flex flex-column justify-content-evenly text-light">
         <div class="container h-100 px-4 py-4 text-light">
@@ -40,61 +47,71 @@
                     </form>
                 </div>
             </div>
-            <div class="row mb-2">
-                <table class="table-main w-100 card-main">
-                    <thead class="w-100">
-                        <tr class="border-bottom">
-                            <th colspan="2">
-                                <h3 class="mx-2 my-3">Inventory Name: </h3>
-                            </th>
-                            <th colspan="2">
-                                <h3 class="mx-2 my-3">Inventory Location: </h3>
-                            </th>
-                        </tr>
-                        <tr class="border-bottom text-center">
-                            <th>
-                                <p class="mx-2 my-3">Name</p>
-                            </th>
-                            <th>
-                                <p class="mx-2 my-3">Category</p>
-                            </th>
-                            <th>
-                                <p class="mx-2 my-3">Price</p>
-                            </th>
-                            <th>
-                                <p class="mx-2 my-3">Amount</p>
-                            </th>
-                            <th>
-                                <p class="mx-2 my-3">Details</p>
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody class="w-100 text-center">
-                        @foreach (var item in medicineList)
-                        {
-                            <tr>
-                                <td>
-                                    <p class="mx-2 my-3">@item.Name</p>
-                                </td>
-                                <td>
-                                    <p class="mx-2 my-3">@Math.Truncate(item.Price) EGP</p>
-                                </td>
-                                <td>
-                                    <p class="mx-2 my-3">category</p>
-                                </td>
-                                <td>
-                                    <p class="mx-2 my-3">200</p>
-                                </td>
-                                <td>
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning mx-2 my-3">Details</a>
-                                </td>
+            @foreach (var group in medicineGroups)
+            {
+                <div class="row mb-2">
+                    <table class="table-main w-100 card-main">
+                        <thead class="w-100">
+                            <tr class="border-bottom">
+                                <th colspan="2">
+                                    <h3 class="mx-2 my-3">Inventory Name: @group.Key.Inventory.Name</h3>
+                                </th>
+                                <th colspan="2">
+                                    <h3 class="mx-2 my-3">Inventory Location: @group.Key.Address</h3>
+                                </th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                            <tr class="border-bottom text-center">
+                                <th>
+                                    <p class="mx-2 my-3">Name</p>
+                                </th>
+                                <th>
+                                    <p class="mx-2 my-3">Category</p>
+                                </th>
+                                <th>
+                                    <p class="mx-2 my-3">Price</p>
+                                </th>
+                                <th>
+                                    <p class="mx-2 my-3">Amount</p>
+                                </th>
+                                <th>
+                                    <p class="mx-2 my-3">Details</p>
+                                </th>
+                                <th>
+                                    <p class="mx-2 my-3">Update</p>
+                                </th>
+                            </tr>
+                        </thead>
 
-            </div>
+                        <tbody class="w-100 text-center">
+                            @foreach (var item in group)
+                            {
+                                <tr>
+                                    <td>
+                                        <p class="mx-2 my-3">@item.Medicine?.Name</p>
+                                    </td>
+                                    <td>
+                                        <p class="mx-2 my-3">@item.Medicine.Category</p>
+                                    </td>
+                                    <td>
+                                        <p class="mx-2 my-3">@Math.Truncate(item.Medicine.Price) EGP</p>
+                                    </td>
+                                    <td>
+                                        <p class="mx-2 my-3">@item.Quantity</p>
+                                    </td>
+                                    <td>
+                                        <a asp-action="Details" asp-route-id="@item.MedicineId" class="btn btn-outline-warning mx-2 my-3">Details</a>
+                                    </td>
+                                    <td>
+                                        <a asp-action="UpdateAmount" asp-route-medicineId="@item.MedicineId" asp-route-locationId="@item.LocationId"  class="btn btn-outline-green mx-2 my-3">Update Amount</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            }
+            
         </div>
     </div>
 }
@@ -118,7 +135,7 @@ else
                                     <div class="col-12 mb-2">
                                         <input type="text" name="" id="" class="form-control" placeholder="Expiry date">
                                     </div>
-                                    <input type="hidden" name="" value="@location" id="" class="form-control" placeholder="Expiry date">
+                                    <input type="hidden" name="" value="@inventory.Name" id="" class="form-control" placeholder="Expiry date">
                                 </div>
                                 <div class="row">
                                     <div class="col-12 d-flex flex-row-reverse">
@@ -134,8 +151,7 @@ else
                         <div class="col-12">
                             <div class="row align-items-center justify-content-between h-100">
                                 <div class="col-8">
-                                    <p><b>Name: </b>Inventory01</p>
-                                    <p><b>Location: </b>@location</p>
+                                    <p class="display-6"><b>Name: </b>@inventory.Name</p>
                                 </div>
                                 <div class="col-4">
                                     <h2 class="display-1"><i class="fa-solid fa-warehouse"></i></h2>
@@ -145,9 +161,16 @@ else
                     </div>
                 </div>
             </div>
+            @foreach (var group in medicineGroups)
+            {
             <div class="row mb-2">
                 <table class="table-main w-100 card-main">
                     <thead class="w-100">
+                        <tr class="border-bottom">
+                            <th colspan="2">
+                                <h3 class="mx-2 my-3">Inventory Location: @group.Key.Address</h3>
+                            </th>
+                        </tr>
                         <tr class="border-bottom text-center">
                             <th>
                                 <p class="mx-2 my-3">Name</p>
@@ -165,24 +188,30 @@ else
                     </thead>
 
                     <tbody class="w-100 text-center">
-                        <tr>
-                            <td>
-                                <p class="mx-2 my-3">Asprine</p>
-                            </td>
-                            <td>
-                                <p class="mx-2 my-3">10 EGP</p>
-                            </td>
-                            <td>
-                                <p class="mx-2 my-3">200</p>
-                            </td>
-                            <td>
-                                <button class="btn btn-outline-warning mx-2 my-3">Details</button>
-                            </td>
-                        </tr>
+                        
+                            @foreach(var item in group)
+                            {
+                            <tr>
+                                <td>
+                                    <p class="mx-2 my-3">@item.Medicine.Name</p>
+                                </td>
+                                <td>
+                                        <p class="mx-2 my-3">@Math.Truncate(item.Medicine.Price) EGP</p>
+                                </td>
+                                <td>
+                                    <p class="mx-2 my-3">@item.Quantity</p>
+                                </td>
+                                <td>
+                                    <button class="btn btn-outline-warning mx-2 my-3">Details</button>
+                                </td>
+                            </tr>
+                            }
+                            
                     </tbody>
                 </table>
 
             </div>
+            }
         </div>
     </div>
 }
@@ -243,22 +272,23 @@ else
 
                     </div>
                 </div>
-                @if (location == "" || location is null)
+                @if (inventory is null)
                 {
                     <div class="row mb-2">
                         <div class="col-12">
                             <input list="InventoryLocation" class="form-control" placeholder="Inventory location" />
                             <datalist id="InventoryLocation">
-                                <option value="first" />
-                                <option value="second" />
-                                <option value="third" />
+                                @foreach (var group in medicineGroups)
+                                {
+                                    <option value="@group.Key.Address" />
+                                }
                             </datalist>
                         </div>
                     </div>
                 }
                 else
                 {
-                    <input type="hidden" class="form-control" placeholder="Inventory location" value="@location" />
+                    <input type="hidden" class="form-control" placeholder="Inventory location" value="@inventory.Id" />
 
                 }
                 <div class="row mb-2">
