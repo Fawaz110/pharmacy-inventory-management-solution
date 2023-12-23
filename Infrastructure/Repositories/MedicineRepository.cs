@@ -39,6 +39,10 @@ namespace Infrastructure.Repositories
             return _context.SaveChanges();
         }
 
-
+        public int DeleteFromInventory(int id)
+        {
+            _context.Remove(_context.MedicineLocations.FirstOrDefault(ml => ml.Id == id));
+            return _context.SaveChanges();
+        }
     }
 }

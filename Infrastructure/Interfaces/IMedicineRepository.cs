@@ -9,5 +9,6 @@ namespace Infrastructure.Interfaces
         IEnumerable<MedicineLocations> GetAllForComany();
         IEnumerable<MedicineLocations> GetAllForPharmacies();
         int UpdateAmount(MedicineLocations entity);
+        int DeleteFromInventory(int id);
     }
 }

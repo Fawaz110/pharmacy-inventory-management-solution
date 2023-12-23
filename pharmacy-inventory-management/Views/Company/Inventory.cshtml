@@ -61,6 +61,8 @@
                                 </th>
                             </tr>
                             <tr class="border-bottom text-center">
+                                <th>                            
+                                </th>
                                 <th>
                                     <p class="mx-2 my-3">Name</p>
                                 </th>
@@ -86,6 +88,11 @@
                             @foreach (var item in group)
                             {
                                 <tr>
+                                    <td class="d-flex flex-shrink-0">
+                                        <a asp-action="DeleteFromInventory" asp-route-rowId="@item.Id" class="btn table-btn-delete rounded-circle d-flex flex-row-reverse justify-content-center align-items-center p-3 mx-2 my-3 fa-rotate-180">
+                                            <i class="fa-solid fa-delete-left fa-xl"></i>
+                                        </a>
+                                    </td>
                                     <td>
                                         <p class="mx-2 my-3">@item.Medicine?.Name</p>
                                     </td>

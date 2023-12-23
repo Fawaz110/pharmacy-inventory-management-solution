@@ -178,5 +178,12 @@ namespace pharmacy_inventory_management.Controllers
             }
             return View(medicineLocation);
         }
+        // [HttpPost]
+        public IActionResult DeleteFromInventory(int rowId)
+        {
+            _unitOfWork.MedicineRepository.DeleteFromInventory(rowId);
+
+            return RedirectToAction(nameof(Inventory));
+        }
     }
 }

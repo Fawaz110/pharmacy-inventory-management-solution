@@ -5,10 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using pharmacy_inventory_management.Models;
-using System.Data;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Xml.Linq;
 
 namespace pharmacy_inventory_management.Controllers
 {

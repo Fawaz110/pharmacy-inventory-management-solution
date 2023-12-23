@@ -378,3 +378,12 @@ svg {
     background-color: #1dcdade8;
     transform: skewY(30deg)
 }
+
+.table-btn-delete {
+    color: #fff !important;
+    transition: .3s;
+}
+
+.table-btn-delete:hover {
+    color: #dc3545 !important;
+}
