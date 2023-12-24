@@ -1,6 +1,8 @@
 ﻿
 @{
     ViewData["Title"] = "Returns";
+
+    var returns = (IEnumerable<Receipt>)ViewData["returns"];
 }
 
 <div class="container p-3 text-light">
@@ -8,21 +10,20 @@
     <div class="row mb-3">
         <div class="col-6 mb-3">
             <div class="card-gray p-3">
-                <div class="row">
-                    <div class="col-12 mb-2"><h2>Search</h2></div>
-                    <div class="col-12 mb-2">
-                        <input type="text" name="" id="" class="form-control" placeholder="Pharmacy name">
+                <form>
+                    <div class="row">
+                        <div class="col-12 mb-2"><h2>Search</h2></div>
+                        <div class="col-12 mb-2">
+                            <input type="text" name="pharmacyNameSearchTerm" id="" class="form-control" placeholder="Pharmacy name">
+                        </div>
+                        <div class="col-12 mb-2">
+                            <input type="date" name="dateForSearch" id="" class="form-control" placeholder="Day">
+                        </div>
+                        <div class="col-12 mb-2">
+                            <input type="submit" value="Search" name="" id="" class="btn btn-outline-green w-100" placeholder="Year">
+                        </div>
                     </div>
-                    <div class="col-12 mb-2">
-                        <input type="number" min="1" max="30" name="" id="" class="form-control" placeholder="Day">
-                    </div>
-                    <div class="col-12 mb-2">
-                        <input type="month" name="" id="" class="form-control" placeholder="Month">
-                    </div>
-                    <div class="col-12 mb-2">
-                        <input type="submit" value="Search" name="" id="" class="btn btn-outline-green w-100" placeholder="Year">
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
         <div class="col-6 mb-3">
@@ -46,13 +47,16 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach(var item in returns)
+                        {
                         <tr>
-                            <td><p class="mx-2 my-3">Wael Samir</p></td>
-                            <td><p class="mx-2 my-3">150</p></td>
-                            <td><p class="mx-2 my-3">1800</p></td>
-                            <td><p class="mx-2 my-3">10 oct,2023</p></td>
+                            <td><p class="mx-2 my-3">@item.Sender.Inventory.Name</p></td>
+                            <td><p class="mx-2 my-3">@item.TotalAmount</p></td>
+                            <td><p class="mx-2 my-3">@Math.Truncate(item.TotalPrice) EGP</p></td>
+                            <td><p class="mx-2 my-3">@item.Date.ToString("dd/MM/yyyy")</p></td>
                             <td><a href="#" class="btn btn-outline-warning">Details</a></td>
                         </tr>
+                        }
                     </tbody>
                 </table>
             </div>

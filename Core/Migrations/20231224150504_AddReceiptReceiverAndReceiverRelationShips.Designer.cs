@@ -4,6 +4,7 @@ using Core.PharmacyDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(PharmaDbContext))]
-    partial class PharmaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231224150504_AddReceiptReceiverAndReceiverRelationShips")]
+    partial class AddReceiptReceiverAndReceiverRelationShips
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,29 +228,6 @@ namespace Core.Migrations
                     b.HasIndex("LocationId");
 
                     b.ToTable("MedicineLocations");
-                });
-
-            modelBuilder.Entity("Core.PharmacyEntities.MedicineReceipt", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("MedicineId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReceiptId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MedicineId");
-
-                    b.HasIndex("ReceiptId");
-
-                    b.ToTable("MedicineReceipt");
                 });
 
             modelBuilder.Entity("Core.PharmacyEntities.Receipt", b =>
@@ -490,25 +469,6 @@ namespace Core.Migrations
                     b.Navigation("Medicine");
                 });
 
-            modelBuilder.Entity("Core.PharmacyEntities.MedicineReceipt", b =>
-                {
-                    b.HasOne("Core.PharmacyEntities.Medicine", "Medicine")
-                        .WithMany("MedicineReceipt")
-                        .HasForeignKey("MedicineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.PharmacyEntities.Receipt", "Receipt")
-                        .WithMany("MedicineReceipt")
-                        .HasForeignKey("ReceiptId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Medicine");
-
-                    b.Navigation("Receipt");
-                });
-
             modelBuilder.Entity("Core.PharmacyEntities.Receipt", b =>
                 {
                     b.HasOne("Core.PharmacyEntities.Location", "Receiver")
@@ -626,13 +586,6 @@ namespace Core.Migrations
             modelBuilder.Entity("Core.PharmacyEntities.Medicine", b =>
                 {
                     b.Navigation("MedicineLocations");
-
-                    b.Navigation("MedicineReceipt");
-                });
-
-            modelBuilder.Entity("Core.PharmacyEntities.Receipt", b =>
-                {
-                    b.Navigation("MedicineReceipt");
                 });
 #pragma warning restore 612, 618
         }

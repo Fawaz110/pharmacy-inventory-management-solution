@@ -19,11 +19,24 @@ namespace pharmacy_inventory_management.Controllers
             _unitOfWork = unitOfWork;
             _context = context;
         }
-        public IActionResult Inventory(int? id)
+        public IActionResult Inventory(int? id,
+            string MedicineNameSearchTerm = "", 
+            string InvLocationSearchTerm = "",
+            string MedicineCategorySearchTerm = "")
         {
+            if (MedicineNameSearchTerm is null)
+                MedicineNameSearchTerm = "";
+
+            if (InvLocationSearchTerm is null)
+                InvLocationSearchTerm = "";
+
+            if (MedicineCategorySearchTerm is null)
+                MedicineCategorySearchTerm = "";
+
 
             IEnumerable<IGrouping<int, MedicineLocations?>> medicineLocations;
-
+            List<Location> locationsInAdd = new List<Location>();
+            List<Location> locations = new List<Location>();
             //Dictionary<int, List<MedicineLocations?>> keyValuePairs = new Dictionary<int, List<MedicineLocations?>>();
             // List<MedicineLocations?> medicines = new List<MedicineLocations?>();
 
@@ -33,55 +46,57 @@ namespace pharmacy_inventory_management.Controllers
                 ViewData["inventory"] = inventory;
 
                 medicineLocations = _unitOfWork.MedicineRepository.GetAllForComany()
-                                                          .Where(ml => ml.Location.InventoryId == id)
-                                                          .GroupBy(ml => ml.LocationId);
-                
+                                            .Where(
+                                                ml => ml.Location.InventoryId == id 
+                                                && ml.Medicine.Name.Trim().ToLower().Contains(MedicineNameSearchTerm.Trim().ToLower())
+                                                && ml.Location.Address.Trim().ToLower().Contains(InvLocationSearchTerm.Trim().ToLower())
+                                                && ml.Medicine.Category.Trim().ToLower().Contains(MedicineCategorySearchTerm.Trim().ToLower())
+                                                ).GroupBy(ml => ml.LocationId);
+
+
 
                 // get locations of the inventory (using in add proccess)
                 // var locationsOfInventory = _unitOfWork.LocationRepository.GetLocationsByInventoryId((int)id);
 
+                var result = _unitOfWork.LocationRepository.GetLocationsByInventoryId(inventory.Id);
+
+                foreach (var location in result)
+                    locationsInAdd.Add(location);
+
             }
             else
             {
-                medicineLocations = _unitOfWork.MedicineRepository.GetAllForComany().GroupBy(ml => ml.LocationId);
+                medicineLocations = _unitOfWork.MedicineRepository.GetAllForComany()
+                                             .Where(
+                                                ml => ml.Medicine.Name.Trim().ToLower().Contains(MedicineNameSearchTerm.Trim().ToLower())
+                                                && ml.Location.Address.Trim().ToLower().Contains(InvLocationSearchTerm.Trim().ToLower())
+                                                && ml.Medicine.Category.Trim().ToLower().Contains(MedicineCategorySearchTerm.Trim().ToLower())
+                                                ).GroupBy(ml => ml.LocationId);
 
-                
-                    
-                
 
-                //// get all locations of company inventories
-                //foreach (var group in medicineLocations)
-                //{
-                //    var i = group.Key.Inventory;
-                //    foreach (var item in group)
-                //        if(item.Location.Inventory.InventoryType == InventoryType.Company)
-                //        {
-                //           var location = _unitOfWork.LocationRepository.GetLocationsByInventoryId(item.Location.InventoryId);
-                //        }
-                //}
-                // var allCompanyLocations = _unitOfWork.LocationRepository.GetLocationsByInventoryId(/* variable */)
+
+                var company = _unitOfWork.InventoryRepository.GetCompanyInventories();
+                foreach (var inventory in company)
+                {
+                    var result = _unitOfWork.LocationRepository.GetLocationsByInventoryId(inventory.Id);
+
+                    foreach (var location in result)
+                        locationsInAdd.Add(location);
+
+                }
             }
+            ViewData["locationsInAdd"] = locationsInAdd;
             
-            //foreach (var group in medicineLocations)
-            //{
-            //    var location = _unitOfWork.LocationRepository.GetById(group.Key);
-            //    foreach (var item in group)
-            //    {
-            //        if (keyValuePairs.ContainsKey(group.Key))
-            //            keyValuePairs[group.Key].Add(item);
-            //        else
-            //            keyValuePairs.Add(group.Key, new List<MedicineLocations>() { item });
-            //    }
-
-            //}
-
-            List<Location> locations = new List<Location>();
-
+            
             foreach (var group in medicineLocations)
                 locations.Add(_unitOfWork.LocationRepository.GetLocationWithInclude(group.Key));
 
             ViewData["lcoations"] = locations;
+
             
+
+
+
             ViewData["medicineGroups"] = medicineLocations;
             return View(new MedicineVM());
         }
@@ -114,11 +129,32 @@ namespace pharmacy_inventory_management.Controllers
             ViewData["medicine"] = _unitOfWork.MedicineRepository.GetAll();
             return View(medicine);
         }
-        public IActionResult Details(int id)
+        public IActionResult Details(int locationId, int medicineId)
         {
-            var medicine = _unitOfWork.MedicineRepository.GetById(id);
-            return View(medicine);
+            MedicineLocations medicineLocation;
+            if (locationId != 0)
+            {
+                medicineLocation = _unitOfWork.MedicineRepository.GetMedicinesByLocationId(locationId)
+                                                                .Where(ml => ml.MedicineId == medicineId).FirstOrDefault();
+            }
+            else
+            {
+                medicineLocation = _unitOfWork.MedicineRepository.GetAllForComany().FirstOrDefault(ml => ml.MedicineId == medicineId);
+            }
+            // var medicine = _unitOfWork.MedicineRepository.GetById(medicineId);
+
+            ViewBag.Edit = true;
+            return View(medicineLocation);
         }
+        //public IActionResult Details(int id)
+        //{
+        //    // var medicine = _unitOfWork.MedicineRepository.GetById(medicineId);
+        //    var medicine = _unitOfWork.MedicineRepository.GetAllForComany().Where(ml => ml.MedicineId == id).FirstOrDefault();
+        //    var medicineLocation = _unitOfWork.MedicineRepository.GetById(id);
+
+        //    ViewBag.Edit = true;
+        //    return View(medicineLocation);
+        //}
         public IActionResult Update(int id)
         {
             var medicine = _unitOfWork.MedicineRepository.GetById(id);
@@ -170,14 +206,9 @@ namespace pharmacy_inventory_management.Controllers
                     return View(medicine);
 
                 _unitOfWork.MedicineRepository.Update(updatedMedicine);
-                return RedirectToAction(nameof(Details), new { id = updatedMedicine.Id });
+                return RedirectToAction(nameof(Details), new { medicineId = updatedMedicine.Id });
             }
             return View(medicine);
-        }
-        public IActionResult Delete(int id)
-        {
-            _unitOfWork.MedicineRepository.Delete(id);
-            return RedirectToAction("Inventory");
         }
         
         public IActionResult UpdateAmount(int medicineId, int locationId)
@@ -229,6 +260,36 @@ namespace pharmacy_inventory_management.Controllers
             _unitOfWork.MedicineRepository.DeleteFromInventory(rowId);
 
             return RedirectToAction(nameof(Inventory));
+        }
+
+
+        public IActionResult AddInventory(string? inventoryName, int inventoryId = 0)
+        {
+            if (!string.IsNullOrEmpty(inventoryName))
+            {
+                var inventory = new Inventory
+                {
+                    Name = inventoryName,
+                    InventoryType = InventoryType.Company
+                };
+                _unitOfWork.InventoryRepository.Add(inventory);
+            }
+            return RedirectToAction(nameof(Inventory));
+        }
+
+        public IActionResult AddBranche(string brancheName)
+        {
+            int id = (int)TempData["inventoryId"];
+            if (!string.IsNullOrEmpty(brancheName))
+            {
+                var branche = new Location
+                {
+                    Address = brancheName,
+                    InventoryId = id
+                };
+                _unitOfWork.LocationRepository.Add(branche);
+            }
+            return RedirectToAction(nameof(Inventory), new {id = id});
         }
     }
 }

@@ -12,12 +12,7 @@ namespace Core.PharmacyEntities
         //public int SenderInventoryId { get; set; }
         //[Required]
         //public int RecieverInventoryId { get; set; }
-        //public IEnumerable<Inventory>? SenderInventory { get; set; }
         //public IEnumerable<Inventory>? ReceiverInventory { get; set; }
-
-
-        public IEnumerable<ReceiptSender>? ReceiptSender { get; set; }
-        public IEnumerable<ReceiptReceiver>? ReceiptReceiver { get; set; }
 
         [Required]
         public ReceiptType ReceiptType { get; set; }
@@ -26,5 +21,12 @@ namespace Core.PharmacyEntities
         [Required]
         public decimal TotalPrice { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
+        public Location? Sender { get; set; }
+        public int SenderId { get; set; }
+        public Location? Receiver { get; set; }
+        public int ReceiverId { get; set; }
+        public IEnumerable<MedicineReceipt>? MedicineReceipt { get; set; }
+        //public IEnumerable<ReceiptSender>? ReceiptSender{ get; set; }
+        //public IEnumerable<ReceiptReceiver>? ReceiptReceiver { get; set; }
     }
 }

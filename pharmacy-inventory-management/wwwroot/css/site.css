@@ -285,7 +285,8 @@ svg {
     animation: none;
 }
 
-.layer {
+.layer-medicine,
+.layer-inventory {
     background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 0;

@@ -30,5 +30,6 @@ namespace Core.PharmacyEntities
         [Required]
         public string ImageUrl { get; set; }
         public IEnumerable<MedicineLocations>? MedicineLocations { get; set; }
+        public IEnumerable<MedicineReceipt>? MedicineReceipt { get; set; }
     }
 }

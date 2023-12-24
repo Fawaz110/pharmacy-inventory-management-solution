@@ -8,6 +8,7 @@ namespace Infrastructure.Interfaces
         public IUserRepository UserRepository { get; set; }
         public IInventoryRepository InventoryRepository { get; set; }
         public ILocationRepository LocationRepository { get; set; }
+        public IReceiptRepository ReceiptRepository { get; set; }
 
     }
 }

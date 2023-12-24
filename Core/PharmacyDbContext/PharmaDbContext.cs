@@ -19,8 +19,17 @@ namespace Core.PharmacyDbContext
         {
             modelBuilder.Entity<MedicineLocations>().HasKey(x => new { x.MedicineId, x.LocationId });
 
-            modelBuilder.Entity<ReceiptSender>().HasKey(x => new {x.SenderId,x.ReceiptId});
-            modelBuilder.Entity<ReceiptReceiver>().HasKey(x => new {x.ReceiverId,x.ReceiptId});
+            modelBuilder.Entity<Receipt>().HasOne(x => x.Sender)
+                                          .WithMany(l => l.SentReceipts)
+                                          .HasForeignKey(x => x.SenderId);
+
+            modelBuilder.Entity<Receipt>().HasOne(x => x.Receiver)
+                                          .WithMany(l => l.ReceivedReceipts)
+                                          .HasForeignKey(x => x.ReceiverId);
+
+
+            //modelBuilder.Entity<ReceiptSender>().HasKey(x => new {x.SenderId,x.ReceiptId});
+            //modelBuilder.Entity<ReceiptReceiver>().HasKey(x => new {x.ReceiverId,x.ReceiptId});
 
             //modelBuilder.Entity<ReceiptInventory>().HasKey(x => new { x.Sender, x.Receiver, x.Receipt });
 
@@ -55,10 +64,12 @@ namespace Core.PharmacyDbContext
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Receipt> Receipts { get; set; }
-        public DbSet<ReceiptSender> ReceiptSenders { get; set; }
         public DbSet<WorkflowTracking> WorkflowTrackingRecords { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<MedicineLocations> MedicineLocations { get; set; }
+        public DbSet<MedicineReceipt> MedicineReceipt { get; set; }
+        //public DbSet<ReceiptSender> ReceiptSenders { get; set; }
+        //public DbSet<ReceiptReceiver> ReceiptReceivers { get; set; }
         //public DbSet<ReceiptInventory> ReceiptInventories { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace Infrastructure.Repositories
             => _context.MedicineLocations.AsNoTracking()
                                          .Where(ml => ml.LocationId == id)
                                          .Include(ml => ml.Medicine)
-                                         .Include(ml => ml.Location);
+                                         .Include(ml => ml.Location).ToList();
 
         IEnumerable<MedicineLocations> IMedicineRepository.GetAll()
             => _context.MedicineLocations.AsNoTracking().Include(ml => ml.Location).ThenInclude(loc => loc.Inventory).Include(ml => ml.Medicine);
@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
         public IEnumerable<MedicineLocations> GetAllForPharmacies()
             => _context.MedicineLocations.AsNoTracking().Include(ml => ml.Location).ThenInclude(loc => loc.Inventory)
                     .Include(ml => ml.Medicine)
-                    .Where(ml => ml.Location.Inventory.InventoryType == InventoryType.Company);
+                    .Where(ml => ml.Location.Inventory.InventoryType == InventoryType.Pharmacy);
 
         public int UpdateAmount(MedicineLocations entity)
         {

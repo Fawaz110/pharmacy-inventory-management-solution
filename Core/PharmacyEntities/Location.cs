@@ -15,5 +15,10 @@ namespace Core.PharmacyEntities
         [Required]
         public string Address { get; set; }
         public IEnumerable<MedicineLocations>? MedicineLocations { get; set; }
+        public IEnumerable<Receipt>? SentReceipts { get; set; }
+        public IEnumerable<Receipt>? ReceivedReceipts { get; set; }
+        //public IEnumerable<ReceiptSender>? ReceiptSender { get; set; }
+        //public IEnumerable<ReceiptReceiver>? ReceiptReceiver { get; set; }
+        //public IEnumerable<ReceiptReceiver>? ReceiptReceiver { get; set; }
     }
 }

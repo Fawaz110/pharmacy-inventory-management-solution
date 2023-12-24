@@ -1,6 +1,7 @@
 ﻿using Core.PharmacyDbContext;
 using Core.PharmacyEntities;
 using Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,10 @@ namespace Infrastructure.Repositories
         }
 
         public IEnumerable<Inventory> GetCompanyInventories()
-            => _context.Inventories.Where(inv => inv.InventoryType == InventoryType.Company);
+            => _context.Inventories.Where(inv => inv.InventoryType == InventoryType.Company).AsNoTracking().ToList();
 
         public IEnumerable<Inventory> GetPharmaciesInventories()
-            => _context.Inventories.Where(inv => inv.InventoryType == InventoryType.Pharmacy);
+            => _context.Inventories.Where(inv => inv.InventoryType == InventoryType.Pharmacy).AsNoTracking().ToList();
          
     }
 }

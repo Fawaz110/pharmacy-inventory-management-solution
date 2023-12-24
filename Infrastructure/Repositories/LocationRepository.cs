@@ -20,7 +20,7 @@ namespace Infrastructure.Repositories
         }
 
         public IEnumerable<Location> GetLocationsByInventoryId(int id)
-            => _context.Locations.Where(location => location.Id == id).Include(l => l.Inventory).AsNoTracking().ToList();
+            => _context.Locations.Where(location => location.InventoryId == id).Include(l => l.Inventory).AsNoTracking().ToList();
 
         public Location GetLocationWithInclude(int locationId)
             => _context.Locations.AsNoTracking().Include(l => l.Inventory).FirstOrDefault(l => l.Id == locationId);
