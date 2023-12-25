@@ -7,13 +7,14 @@ namespace pharmacy_inventory_management.Models
 {
     public class MedicineVM
     {
-        public int Id { get; set; }
+        public int? Id { get; set; } = 0;
         [Required]
         public int locationId { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
         public string Category { get; set; }
+        public int Quantity { get; set; }
         [Required]
         [Column(TypeName = "money")]
 

@@ -1,26 +1,16 @@
 ﻿@model UserVM
 @{
     ViewData["Title"] = "Index";
-    List<string> roles = (List<string>)ViewData["roles"]!;
     IEnumerable<ApplicationUser> users = (IEnumerable<ApplicationUser>)ViewData["users"]!;
 }
 <div class="container p-3 text-white">
     <div class="row mb-2">
         <div class="col-6 mb-3">
             <div class="card-gray h-100 p-4">
-                <form action="" class="h-100">
+                <form class="h-100">
                     <div class="row flex-row-reverse h-100 align-items-center">
                         <div class="col-12 mb-2">
-                            <input type="text" placeholder="User name" class="form-control w-100">
-                        </div>
-                        <div class="col-12 mb-2">
-                            <input type="text" placeholder="User role" class="form-control w-100">
-                        </div>
-                        <div class="col-12 mb-2">
-                            <input type="number" min="1" max="32" placeholder="Day" class="form-control w-100">
-                        </div>
-                        <div class="col-12 mb-2">
-                            <input type="month" class="form-control w-100">
+                            <input type="text" name="userNameSearchTerm" placeholder="User name" class="form-control w-100">
                         </div>
                         <div class="col-3"> <input type="submit" value="Search" class="btn btn-outline-green w-100"></div>
                     </div>
@@ -42,19 +32,19 @@
                         <tr>
                             <th><p class="mx-2 my-3">Name</p></th>
                             <th><p class="mx-2 my-3">Email</p></th>
-                            <th><p class="mx-2 my-3">Role</p></th>
                             <th><p class="mx-2 my-3">Hiring date</p></th>
                             <th><p class="mx-2 my-3">Remove</p></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @{ int x = 0; }
+                        @{
+                            int x = 0;
+                        }
                         @foreach (var user in users)
                         {
                             <tr>
                                 <td><p class="mx-2 my-3">@user.UserName</p></td>
                                 <td><p class="mx-2 my-3">@user.Email</p></td>
-                                <td><p class="mx-2 my-3">@roles[x]</p></td>
                                 <td><p class="mx-2 my-3">@user.HiringDate.ToString("dd/MM/yyyy")</p></td>
                                 <td><a asp-action="Delete" asp-route-id="@user.Id" class="delete-btn btn btn-outline-danger">Remove<i class="fa-solid fa-user-xmark ms-2"></i></a></td>
                             </tr>

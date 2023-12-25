@@ -27,6 +27,8 @@ namespace Core.PharmacyDbContext
                                           .WithMany(l => l.ReceivedReceipts)
                                           .HasForeignKey(x => x.ReceiverId);
 
+            // modelBuilder.Entity<MedicineLocations>().Property(x => x.Id).ValueGeneratedNever();
+
 
             //modelBuilder.Entity<ReceiptSender>().HasKey(x => new {x.SenderId,x.ReceiptId});
             //modelBuilder.Entity<ReceiptReceiver>().HasKey(x => new {x.ReceiverId,x.ReceiptId});

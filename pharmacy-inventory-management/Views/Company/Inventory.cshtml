@@ -311,9 +311,6 @@ else
                 </div>
             </div>
 
-
-
-
         </div>
     </div>
 }
@@ -359,7 +356,8 @@ else
 
                     </div>
                     <div class="col-6">
-                        <input type="number" name="" min="1" id="" class="form-control" placeholder="Quantity">
+                        <input type="number" asp-for="@Model.Quantity" min="1" id="" class="form-control" placeholder="Quantity">
+                        <span asp-validation-for="@Model.Quantity" class="text-main small"></span>
                     </div>
                 </div>
                 <div class="row mb-2">

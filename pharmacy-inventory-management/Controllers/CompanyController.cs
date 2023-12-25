@@ -3,8 +3,11 @@ using Core.PharmacyEntities;
 using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using pharmacy_inventory_management.Helper;
 using pharmacy_inventory_management.Models;
+using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 
 namespace pharmacy_inventory_management.Controllers
 {
@@ -103,28 +106,76 @@ namespace pharmacy_inventory_management.Controllers
         [HttpPost]
         public IActionResult Inventory(MedicineVM medicine)
         {
+            medicine.Id = 2;
             if (medicine.Image != null && ModelState.ErrorCount == 1)
             {
                 medicine.ImageUrl = DocumentSettings.UploadFile(medicine.Image, "Images");
                 ModelState.Clear();
             }
+            if (ModelState.ErrorCount == 2)
+            {
+                ModelState.Clear();
+            }
             if (ModelState.IsValid)
             {
-                var addedMedicine = new Medicine
-                {
-                    Name = medicine.Name,
-                    Category = medicine.Category,
-                    ExpiryDate = medicine.ExpiryDate,
-                    Indecations = medicine.Indecations,
-                    Price = medicine.Price,
-                    ProductionDate = medicine.ProductionDate,
-                    SideEffects = medicine.SideEffects,
-                    ImageUrl = DocumentSettings.UploadFile(medicine.Image, "Images")
-                };
+                // chech if medicine is already exists or not
+                // if true
+                var matchingMedicine = _unitOfWork.MedicineRepository.GetAll().Where(m => m.Medicine?.Name == medicine.Name).FirstOrDefault();
 
-                var location = TempData["location"];
-                _unitOfWork.MedicineRepository.Add(addedMedicine);
-                return RedirectToAction("Inventory");
+                if(matchingMedicine == null)
+                {
+                    var addedMedicine = new Medicine
+                    {
+                        Name = medicine.Name,
+                        Category = medicine.Category,
+                        ExpiryDate = medicine.ExpiryDate,
+                        Indecations = medicine.Indecations,
+                        Price = medicine.Price,
+                        ProductionDate = medicine.ProductionDate,
+                        SideEffects = medicine.SideEffects,
+                        ImageUrl = DocumentSettings.UploadFile(medicine.Image, "Images")
+                    };
+
+                    var location = TempData["location"];
+                    _unitOfWork.MedicineRepository.Add(addedMedicine);
+
+                    var medicineLocation = new MedicineLocations
+                    {
+                        LocationId = medicine.locationId,
+                        MedicineId = addedMedicine.Id,
+                        Quantity = medicine.Quantity
+                    };
+
+                    _unitOfWork.MedicineRepository.AddMedicineInLocation(medicineLocation);
+                }
+                else
+                {
+                    // check if medicine exists in the location or not 
+                    var matchingRecord = _unitOfWork.MedicineRepository.GetAll().Where(ml => ml.MedicineId == matchingMedicine.MedicineId
+                                                                                          && ml.LocationId == matchingMedicine.LocationId)
+                                                                                .FirstOrDefault();
+
+                    if(matchingRecord == null)
+                    {
+                        var medicineLocation = new MedicineLocations
+                        {
+                            LocationId = medicine.locationId,
+                            MedicineId = _unitOfWork.MedicineRepository.GetLastAddedMedicine().Id,
+                            Quantity = medicine.Quantity
+                        };
+
+                        _unitOfWork.MedicineRepository.AddMedicineInLocation(medicineLocation);
+                    }
+                    else
+                    {
+                        _context.Attach(matchingRecord);
+                        matchingRecord.Quantity += medicine.Quantity;
+
+                        _context.Update(matchingRecord);
+                    }
+                }
+                
+                return RedirectToAction("Inventory", "Company");
             }
             ViewData["medicine"] = _unitOfWork.MedicineRepository.GetAll();
             return View(medicine);
@@ -178,7 +229,7 @@ namespace pharmacy_inventory_management.Controllers
         {
             if (medicine.Image == null)
             {
-                medicine.ImageUrl = _unitOfWork.MedicineRepository.GetById(medicine.Id).ImageUrl;
+                medicine.ImageUrl = _unitOfWork.MedicineRepository.GetById((int)medicine.Id).ImageUrl;
             }
             else if(ModelState.ErrorCount == 1)
             {
@@ -191,7 +242,7 @@ namespace pharmacy_inventory_management.Controllers
             {
                 var updatedMedicine = new Medicine
                 {
-                    Id = medicine.Id,
+                    Id = (int)medicine.Id,
                     Name = medicine.Name,
                     Category = medicine.Category,
                     ImageUrl = medicine.ImageUrl,

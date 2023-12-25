@@ -1,13 +1,15 @@
-﻿@{
+﻿@model MedicineVM
+@{
     var inventory = (Inventory)ViewData["inventory"];
+    var locations = (List<Location>?)ViewData["lcoations"];
+    TempData["inventoryId"] = inventory?.Id;
+    //var medicineList = (IEnumerable<Medicine>)ViewData["medicineInLocation"];
 
-    var locations = (List<Location>)ViewData["lcoations"];
+    // var medicineGroups = (Dictionary<Location,IEnumerable<MedicineLocations>>)ViewData["medicineInLocation"];
 
-    var locationsCopy = new List<Location>(locations);
+    var medicineGroups = (IEnumerable<IGrouping<int, MedicineLocations?>>?)ViewData["medicineGroups"];
 
-    var medicineGroups = (IEnumerable<IGrouping<int, MedicineLocations?>>)ViewData["medicineGroups"];
-
-    string location = ViewBag.Location;
+    var locationsInAdd = (IEnumerable<Location>?)ViewData["locationsInAdd"];
     ViewData["Title"] = "Inventories";
 }
 
@@ -114,6 +116,45 @@
                     }
                 </div>
             }
+
+            <div class="btn-collection">
+                <div class="position-relative">
+                    <button class="btn-floating btn-add-medicine btn btn-green btn-lg" title="Add medicine">
+                        <i class="fa-solid fa-hand-holding-medical"></i>
+                    </button>
+                    <button class="btn-floating btn-add-inventory btn btn-green btn-lg" title="Add inventory">
+                        <i class="fa-solid fa-warehouse"></i>
+                    </button>
+                    <button class="btn-show btn btn-green btn-lg" title="Add item">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="layer-inventory row align-items-center justify-content-center scrollable" style="display: none;">
+                <div class="col-4">
+                    <div class="card-gray p-4">
+                        <h2 class="text-main mb-4">Add Inventory</h2>
+                        <form action="AddInventory" method="post">
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <input type="text" name="inventoryName" id="" class="form-control" placeholder="Inventory name">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-12 d-flex flex-row-reverse">
+                                    <input type="reset" value="CANCEL" id="" class="btn btn-outline-warning">
+                                    <input type="submit" value="ADD INVENTORY" id="" class="btn btn-outline-green me-2">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
     </div>
 }
@@ -150,7 +191,6 @@ else
                             <div class="row align-items-center justify-content-between h-100">
                                 <div class="col-8">
                                     <p><b>Name: </b>@inventory.Name</p>
-                                    <p><b>Location: </b>@location</p>
                                 </div>
                                 <div class="col-4">
                                     <h2 class="display-1"><i class="fa-solid fa-boxes-stacked"></i></h2>
@@ -226,28 +266,74 @@ else
                     }
                 </div>
             }
+
+            <div class="btn-collection">
+                <div class="position-relative">
+                    <button class="btn-floating btn-add-medicine btn btn-green btn-lg" title="Add medicine">
+                        <i class="fa-solid fa-hand-holding-medical"></i>
+                    </button>
+                    <button class="btn-floating btn-add-inventory btn btn-green btn-lg" title="Add Branche">
+                        <i class="fa-solid fa-warehouse"></i>
+                    </button>
+                    <button class="btn-show btn btn-green btn-lg" title="Add item">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="layer-inventory row align-items-center justify-content-center scrollable" style="display: none;">
+                <div class="col-4">
+                    <div class="card-gray p-4">
+                        <h2 class="text-main mb-4">Add Branche</h2>
+                        @using (Html.BeginForm("AddBranche", "Company", FormMethod.Post))
+                        {
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <input type="text" name="brancheName" id="" class="form-control" placeholder="Branche Address">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-12 d-flex flex-row-reverse">
+                                    <input type="reset" value="CANCEL" id="" class="btn btn-outline-warning">
+                                    <input type="submit" value="ADD BRANCHE" class="btn btn-outline-green me-2">
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 }
 
-<!-- Your HTML code for the button and form -->
-<button class="btn-add btn btn-green btn-lg" title="Add medicine">
-    <i class="fa-solid fa-hand-holding-medical"></i>
-</button>
-<div class="layer row align-items-center justify-content-center" style="display: none;">
+<div class="layer-medicine row align-items-center justify-content-center scrollable" style="display: none;">
     <div class="col-4">
         <div class="card-gray p-4">
             <h2 class="text-main mb-4">Add Medicine</h2>
-            <form action="">
+            <form action="Inventory" method="post" enctype="multipart/form-data">
                 <div class="row mb-2">
                     <div class="col-12">
-                        <input type="text" name="" id="" class="form-control" placeholder="Medicine name">
+                        <input type="text" asp-for="@Model.Name" id="" class="form-control" placeholder="Medicine name">
+                        <span asp-validation-for="@Model.Name" class="text-main small"></span>
+
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <input type="text" asp-for="@Model.Category" id="" class="form-control" placeholder="Medicine category">
+                        <span asp-validation-for="@Model.Category" class="text-main small"></span>
+
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-6">
-                        <input type="number" step=".10" min="1" name="" id="" class="form-control"
+                        <input type="number" asp-for="@Model.Price" step=".10" min="1" id="" class="form-control"
                                placeholder="Price">
+                        <span asp-validation-for="@Model.Price" class="text-main small"></span>
+
                     </div>
                     <div class="col-6">
                         <input type="number" name="" min="1" id="" class="form-control" placeholder="Quantity">
@@ -255,40 +341,69 @@ else
                 </div>
                 <div class="row mb-2">
                     <div class="col-6">
-                        <input type="date" name="" id="" class="form-control" placeholder="Production Date">
+                        <input type="date" asp-for="@Model.ProductionDate" value="@DateTime.Now" id="" class="form-control" placeholder="Production Date">
+                        <span asp-validation-for="@Model.ProductionDate" class="text-main small"></span>
+
                     </div>
                     <div class="col-6">
-                        <input type="date" name="" id="" class="form-control" placeholder="Expiry Date">
+                        <input type="date" asp-for="@Model.ExpiryDate" asp-action="@Model.ExpiryDate" value="@DateTime.Now.AddMonths(3)" id="" class="form-control" placeholder="Expiry Date">
+                        <span asp-validation-for="@Model.ExpiryDate" class="text-main small"></span>
+
                     </div>
                 </div>
-                @if (location == "" || location is null)
-                {
-                    <div class="row mb-2">
-                        <div class="col-12">
-                            <input list="InventoryLocation" class="form-control" placeholder="Inventory location" />
-                            <datalist id="InventoryLocation">
-                                <option value="first" />
-                                <option value="second" />
-                                <option value="third" />
-                            </datalist>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <input type="hidden" class="form-control" placeholder="Inventory location" value="@location" />
 
-                }
+
                 <div class="row mb-2">
                     <div class="col-12">
-                        <textarea class="form-control" placeholder="Indecations" name="" id="" cols="30"
+                        <textarea class="form-control" asp-for="@Model.Indecations" placeholder="Indecations" id="" cols="30"
                                   rows="3"></textarea>
+                        <span asp-validation-for="@Model.Indecations" class="text-main small"></span>
+
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-12">
-                        <textarea class="form-control" placeholder="Side effects" name="" id="" cols="30"
+                        <textarea class="form-control" asp-for="@Model.SideEffects" placeholder="Side effects" id="" cols="30"
                                   rows="3"></textarea>
+                        <span asp-validation-for="@Model.SideEffects" class="text-main small"></span>
+
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label asp-for="@Model.Image" class="text-white mb-2">Medicine Image</label>
+                        <input type="file" class="form-control" asp-for="@Model.Image" />
+                        <input type="hidden" asp-for="@Model.ImageUrl" />
+                        <span asp-validation-for="@Model.ImageUrl" class="text-main small"></span>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12">
+
+                        <style>
+                            /* CSS code */
+                            .form-check-input:checked {
+                                /* Change background color */
+                                background-color: #109A81;
+                                box-shadow: 0 0 10px #109A81;
+                                border-color: #109A81;
+                                /* or Change border color */
+                            }
+                        </style>
+                        <div class="d-flex align-items-center">
+                            @if (locationsInAdd != null)
+                            {
+                                @foreach (var group in locationsInAdd)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" asp-for="@Model.locationId" value="@group.Id" checked>
+                                        <label class="form-check-label text-white me-3" for="pharmacist">
+                                            @group.Address
+                                        </label>
+                                    </div>
+                                }
+                            }
+                        </div>
                     </div>
                 </div>
                 <div class="row mb-2">
@@ -303,6 +418,7 @@ else
         </div>
     </div>
 </div>
+
 <!-- Rest of your HTML code -->
 <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -310,12 +426,45 @@ else
 <!-- Your script -->
 <script>
     $(document).ready(function () {
-        $(".btn-add").on('click', () => {
-            $('.layer').fadeIn(100);
+
+        $('.btn-show').on('click', () => {
+            if ($('.btn-add-inventory').css('transform') == 'matrix(1, 0, 0, 1, 0, -60)') {
+                $('.btn-add-inventory').css('transform', 'translateY(0)')
+                $('.btn-add-inventory').css('z-index', 100)
+                $('.btn-add-medicine').css('z-index', 100)
+                $('.btn-add-medicine').css('transform', 'translateY(0)')
+            }
+            else {
+                $('.btn-add-medicine').css('transform', 'translateY(-120px)')
+                console.log($('.btn-add-medicine').css('transform'));
+                $('.btn-add-inventory').css('transform', 'matrix(1, 0, 0, 1, 0, -60)')
+                $('.btn-add-inventory').css('z-index', 101)
+                $('.btn-add-medicine').css('z-index', 101)
+            }
+        })
+
+        $('.btn-floating').on('click', () => {
+            $('.btn-add-inventory').css('transform', 'translateY(0)')
+            $('.btn-add-inventory').css('z-index', 100)
+            $('.btn-add-medicine').css('z-index', 100)
+            $('.btn-add-medicine').css('transform', 'translateY(0)')
+        })
+        $(".btn-add-medicine").on('click', () => {
+            $('.layer-medicine').fadeIn(100);
+        });
+
+        $(".btn-add-inventory").on('click', () => {
+            $('.layer-inventory').fadeIn(100);
         });
 
         $("[type='reset']").on('click', () => {
-            $('.layer').fadeOut(100);
+            $('.layer-medicine').fadeOut(100);
+            $('.layer-inventory').fadeOut(100);
         });
     });
 </script>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

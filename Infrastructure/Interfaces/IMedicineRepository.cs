@@ -10,5 +10,9 @@ namespace Infrastructure.Interfaces
         IEnumerable<MedicineLocations> GetAllForPharmacies();
         int UpdateAmount(MedicineLocations entity);
         int DeleteFromInventory(int id);
+        Medicine GetLastAddedMedicine();
+        int AddMedicineInLocation(MedicineLocations medicineLocation);
+        int UpdateMedicineLocation(MedicineLocations medicineLocation);
+        MedicineLocations GetLastInsertedMeidcineLocations();
     }
 }

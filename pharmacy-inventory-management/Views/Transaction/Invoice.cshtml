@@ -1,11 +1,12 @@
-﻿
+﻿@model Receipt
 @{
     ViewData["Title"] = "Invoice";
     var invoices = (IEnumerable<Receipt>?)ViewData["invoices"];
+    var senders = (IEnumerable<MedicineLocations>)ViewData["senderLocations"];
+    var receivers = (IEnumerable<MedicineLocations>)ViewData["receiverInventories"];
 }
 
 <div class="container p-3 text-light">
-
     <div class="row mb-3">
         <div class="col-6 mb-3">
             <div class="card-gray p-3">
@@ -53,7 +54,7 @@
                                 <td><p class="mx-2 my-3">@invoice.TotalAmount</p></td>
                                 <td><p class="mx-2 my-3">@Math.Truncate(invoice.TotalPrice) EGP</p></td>
                                 <td><p class="mx-2 my-3">@invoice.Date.ToString("dd/MM/yyyy")</p></td>
-                                <td><a href="#" asp-action="InvoiceDetails" asp-route-id="@invoice.Id" class="btn btn-outline-warning">Details</a></td>
+                                <td><a asp-action="InvoiceDetails" asp-route-id="@invoice.Id" class="btn btn-outline-warning">Details</a></td>
                             </tr>
                         }
                     </tbody>
@@ -62,3 +63,134 @@
         </div>
     </div>
 </div>
+
+
+
+<!-- Your HTML code for the button and form -->
+<div class="btn-collection">
+    <button class="btn-add-pharmacist btn btn-green btn-lg" title="Add medicine">
+        <i class="fa-solid fa-hand-holding-medical"></i>
+    </button>
+    @*<button class="btn-floating btn-add-inventory btn btn-green btn-lg" title="Add inventory">
+    <i class="fa-solid fa-warehouse"></i>
+    </button>
+    <button class="btn-show btn btn-green btn-lg" title="Add item">
+    <i class="fa-solid fa-plus"></i>
+    </button>*@
+</div>
+
+<div class="layer row align-items-center justify-content-center text-white" style="display: none;">
+    <div class="col-4">
+        <div class="card-gray p-4">
+            <h2 class="text-main mb-4">Add User</h2>
+            <form asp-action="Index" method="post">
+                <div class="row mb-2">
+                    <div class="col-12 mb-2">
+                        <input type="text"  id="" class="form-control" placeholder="User name">
+                    </div>
+                    <style>
+                        /* CSS code */
+                        .form-check-input:checked {
+                            /* Change background color */
+                            background-color: #109A81;
+                            box-shadow: 0 0 10px #109A81;
+                            border-color: #109A81;
+                            /* or Change border color */
+                        }
+                    </style>
+                    <div class="col-12 mb-2">
+                        <div class="row">
+                            <div class="col-6">
+                                <h5 class="mb-3">Sender location</h5>
+                                @foreach (var sender in senders)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input sender" asp-for="@Model.SenderId" id="@sender.Location.Address" type="radio" value="@sender.LocationId" checked>
+                                        <label class="form-check-label text-white" for="@sender.Location.Address">
+                                            @sender.Location.Address
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-6">
+                                <h5 class="mb-3">Receiver location</h5>
+                                @foreach (var receiver in receivers)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input" asp-for="@Model.ReceiverId" type="radio" id="@receiver.Location.Address" value="@receiver.LocationId" checked>
+                                        <label class="form-check-label text-white" for="@receiver.Location.Address">
+                                            @receiver.Location.Address
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-6">
+                                <input list="medicines" class="form-control" />
+                                <datalist id="medicines">
+                                    <option value="123" />
+                                    <option value="123" />
+                                    <option value="123" />
+                                </datalist>
+                            </div>
+                        </div>
+                            <script>
+                                var selectedLocation;
+                                $("input[type='radio']").on('change', async (e)=>{
+                                    selectedLocation = e.target.value;
+
+                                    const res = await fetch(`/Transaction/GetMeidicneInLocation?id=${selectedLocation}`);
+                                    if(res.ok){
+                                        const medicine = await res.json();
+                                        for(var i =0;i< medicine.Count;i++){
+                                            console.log(medicine[i].Meidicne.Name);
+                                        }
+                                        
+                                    }else{
+                                        console.log(res.status);
+
+                                    }
+
+                                    displayMedicine(medicine);
+                                });
+                                var dataList = $('#medicines');
+                                function displayMedicine(medicine){
+                                    medicine.forEach((medicine) => {
+                                        $(dataList).append($('<option />').Attr('value', medicine.Medicine.Name));
+                                    });
+                                }
+                            </script>
+                        @*<span asp-validation-for="" class="text-main"></span>*@
+                    </div>
+                    <input type="date" value="@DateTime.Now" name="" id="" class="d-none">
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12 d-flex flex-row-reverse">
+                        <input type="reset" value="CANCEL" id="" class="btn btn-outline-warning">
+                        <input type="submit" value="ADD USER" class="btn btn-outline-green me-2">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Rest of your HTML code -->
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Your script -->
+<script>
+    $(document).ready(function () {
+        $(".btn-add-pharmacist").on('click', () => {
+            $('.layer').fadeIn(100);
+        });
+
+        $("[type='reset']").on('click', () => {
+            $('.layer').fadeOut(100);
+        });
+    });
+</script>
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

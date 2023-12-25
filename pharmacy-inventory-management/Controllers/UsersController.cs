@@ -27,17 +27,13 @@ namespace pharmacy_inventory_management.Controllers
             _signInManager = signInManager;
         }
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? userNameSearchTerm = "")
         {
-            var users = await _userManager.Users.ToListAsync();
-            List<string> roles = new List<string>();
-            foreach (var user in users)
-            {
-                foreach (var role in await _roleManager.Roles.ToListAsync())
-                    if (await _userManager.IsInRoleAsync(user, role.Name))
-                        roles.Add(role.Name);
-            }
-            ViewData["roles"] = roles;
+            if (userNameSearchTerm == null)
+                userNameSearchTerm = "";
+
+            var users = await _userManager.Users.Where(user => user.UserName.Trim().ToLower().Contains(userNameSearchTerm.Trim().ToLower())).ToListAsync();
+            
             ViewData["users"] = users;
             return View(new UserVM());
         }

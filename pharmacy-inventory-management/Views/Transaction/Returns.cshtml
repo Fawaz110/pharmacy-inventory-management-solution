@@ -50,7 +50,7 @@
                         @foreach(var item in returns)
                         {
                         <tr>
-                            <td><p class="mx-2 my-3">@item.Sender.Inventory.Name</p></td>
+                            <td><p class="mx-2 my-3">@item.Receiver.Inventory.Name</p></td>
                             <td><p class="mx-2 my-3">@item.TotalAmount</p></td>
                             <td><p class="mx-2 my-3">@Math.Truncate(item.TotalPrice) EGP</p></td>
                             <td><p class="mx-2 my-3">@item.Date.ToString("dd/MM/yyyy")</p></td>

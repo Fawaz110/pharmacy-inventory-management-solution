@@ -82,7 +82,24 @@ namespace pharmacy_inventory_management.Controllers
 
             ViewData["invoices"] = invoices;
 
-            return View();
+            var receiverInventories = _unitOfWork.MedicineRepository.GetAllForPharmacies().DistinctBy(p => p.LocationId);
+            var senderInventories = _unitOfWork.MedicineRepository.GetAllForComany().DistinctBy(p => p.LocationId);
+
+
+            ViewData["senderLocations"] = senderInventories;
+            ViewData["receiverInventories"] = receiverInventories;
+
+
+
+            return View(new Receipt());
+        }
+
+        [HttpPost]
+        public IActionResult Invoice(Receipt receipt)
+        {
+            receipt.ReceiptType = ReceiptType.Invoice;
+
+            return View(receipt);
         }
 
         public IActionResult Returns(int? id, string? pharmacyNameSearchTerm, DateTime? dateForSearch)
@@ -107,6 +124,13 @@ namespace pharmacy_inventory_management.Controllers
 
             ViewData["returns"] = returns;
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetMeidicneInLocation(string id)
+        {
+            var medicine = _unitOfWork.MedicineRepository.GetMedicinesByLocationId(int.Parse(id));
+            return Ok(medicine);
         }
     }
 }

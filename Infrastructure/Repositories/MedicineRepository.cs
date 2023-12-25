@@ -2,6 +2,7 @@
 using Core.PharmacyEntities;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Infrastructure.Repositories
 {
@@ -44,5 +45,23 @@ namespace Infrastructure.Repositories
             _context.Remove(_context.MedicineLocations.FirstOrDefault(ml => ml.Id == id));
             return _context.SaveChanges();
         }
+
+        public Medicine GetLastAddedMedicine()
+            => _context.Medicines.OrderBy(m => m.Id).LastOrDefault();
+
+        public int AddMedicineInLocation(MedicineLocations medicineLocation)
+        {
+            _context.MedicineLocations.Add(medicineLocation);
+            return _context.SaveChanges();
+        }
+
+        public int UpdateMedicineLocation(MedicineLocations medicineLocation)
+        {
+            _context.Update(medicineLocation);
+            return _context.SaveChanges();
+        }
+
+        public MedicineLocations GetLastInsertedMeidcineLocations()
+            => _context.MedicineLocations.OrderBy(x => x.Id).LastOrDefault();
     }
 }
